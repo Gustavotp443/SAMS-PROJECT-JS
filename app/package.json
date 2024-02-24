@@ -15,6 +15,7 @@
   "author": "Gustavo Teixeira Pardini",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.18.2"
   },
   "devDependencies": {

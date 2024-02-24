@@ -2,8 +2,11 @@ import {server} from "./server/server";
 
 
 //Rodar npm ts-node-dev ./src/index.ts
-server.listen(3333, ()=>{
+//OBSERVA PORTA E RODA O PROJETO
+server.listen(process.env.PORT || 3333, ()=>{
 	console.log("App rodando!");
-	console.log("Porta: 3333");
-	console.log("http://localhost:3333");
+	console.log(`Porta: ${process.env.PORT || 3333}`);
+	if(process.env.NODE_ENV === "dev"){
+		console.log(`http://localhost:${process.env.PORT || 3333}`);
+	}
 });

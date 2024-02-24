@@ -1,10 +1,14 @@
+import "dotenv/config";
 import express from "express";
+import { router } from "./routes";
 
+
+//CONFIGURAÇÕES DO SERVIDOR
 const server = express();
+server.use(express.json());
+server.use(router);
 
-server.get("/", (req,res) => {
-	return res.send("Olá bem vindo ao SAMS");
-});
+
 
 
 export { server };
