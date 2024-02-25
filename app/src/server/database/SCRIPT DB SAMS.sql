@@ -10,20 +10,12 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-#PRODUCT CATEGORY
-CREATE TABLE product_category (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) UNIQUE
-);
-
 #PRODUCTS TABLE
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     name VARCHAR(100),
     price DECIMAL(10, 2),
-    category_id INT,
-    FOREIGN KEY (category_id) REFERENCES product_category(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
