@@ -3,7 +3,7 @@ import { IUser } from "../../models";
 declare module "knex/types/tables" {
     interface Tables{
         users:IUser,
-        // products:IProduct,
+        products:IProduct,
         // stock:IStock,
         // address:IAddress,
         // clients:IClient,
