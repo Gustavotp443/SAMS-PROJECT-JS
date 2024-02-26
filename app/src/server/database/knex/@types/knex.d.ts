@@ -1,13 +1,15 @@
+import { IUser } from "../../models";
+
 declare module "knex/types/tables" {
     interface Tables{
-        // user:IUser,
-        // product:IProduct,
+        users:IUser,
+        // products:IProduct,
         // stock:IStock,
         // address:IAddress,
-        // client:IClient,
-        // vehicle:IVehicle,
+        // clients:IClient,
+        // vehicles:IVehicle,
         // employees:IEmployees,
-        // serviceOrder:IServiceOrder,
-        // productItem:IProductItem
+        // serviceOrders:IServiceOrder,
+        // productItens:IProductItem
     }
 }

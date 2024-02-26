@@ -10,7 +10,10 @@
     "test": "jest",
     "lint": "eslint --fix --ext .ts .",
     "watch": "nodemon --exec \"npm run lint && npm run dev\"",
-    "migrate": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:make"
+    "knex:migrate": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:latest",
+    "knex:rollback": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:rollback",
+    "knex:rollback-all":"npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:rollback --all",
+    "knex:seed":"npx knex --knexfile ./src/server/database/knex/enviroment.ts seed:run"
   },
   "keywords": [],
   "author": "Gustavo Teixeira Pardini",
