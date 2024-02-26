@@ -12,7 +12,7 @@ interface IQueryProps {
 
 //Middleware de validação
 export const getAllValidation = validation((getSchema)=> ({
-	body:getSchema<IQueryProps>(yup.object().shape({
+	query:getSchema<IQueryProps>(yup.object().shape({
 		page: yup.number().optional().moreThan(0),
 		limit: yup.number().optional().moreThan(0),
 		filter: yup.string().optional()
@@ -20,6 +20,6 @@ export const getAllValidation = validation((getSchema)=> ({
 }));
 
 
-export const getAll = async (req: Request<{} ,{} ,IQueryProps>, res:Response) => {
-	return res.json(StatusCodes.INTERNAL_SERVER_ERROR).send("Não Implementado!");
+export const getAll = async (req: Request<{} ,{} ,{} ,IQueryProps>, res:Response) => {
+	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Não Implementado!");
 };

@@ -14,6 +14,16 @@ router.post(
 	UserController.createValidation,
 	UserController.create
 );
+router.get(
+	"/user/:id", 
+	UserController.getByIdValidation,
+	UserController.getById
+);
+router.delete(
+	"/user/:id", 
+	UserController.deleteByIdValidation,
+	UserController.deleteById
+);
 
 //Products
 router.post(
@@ -25,6 +35,21 @@ router.get(
 	"/product", 
 	ProductController.getAllValidation,
 	ProductController.getAll
+);
+router.get(
+	"/product/:id", 
+	ProductController.getByIdValidation,
+	ProductController.getById
+);
+router.put(
+	"/product/:id", 
+	ProductController.updateByIdValidation,
+	ProductController.updateById
+);
+router.delete(
+	"/product/:id", 
+	ProductController.deleteByIdValidation,
+	ProductController.deleteById
 );
 
 

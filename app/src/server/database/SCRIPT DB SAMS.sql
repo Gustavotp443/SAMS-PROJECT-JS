@@ -16,7 +16,6 @@ CREATE TABLE products (
     user_id INT,
     name VARCHAR(100),
     price DECIMAL(10, 2),
-    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 #STOCK TABLE
@@ -24,7 +23,6 @@ CREATE TABLE stock (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT,
     quantity INT,
-    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 #ADDRESS TABLE 
@@ -43,8 +41,6 @@ CREATE TABLE client (
     email VARCHAR(100),
     phone VARCHAR(20),
 	address_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 
@@ -57,7 +53,6 @@ CREATE TABLE vehicle (
     model VARCHAR(100),
     year INT,
     license_plate VARCHAR(20),
-    FOREIGN KEY (client_id) REFERENCES client(id)
 );
 
 #EMPLOYEES TABLE
@@ -67,7 +62,6 @@ CREATE TABLE employees (
     name VARCHAR(100),
 	email VARCHAR(100),
     phone VARCHAR(20),
-    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 #SERVICE_ORDER TABLE
@@ -76,8 +70,6 @@ CREATE TABLE service_order (
 	vehicle_id INT,
 	employee_id INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (vehicle_id) REFERENCES vehicle(id),
-    FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 #PRODUCT_ITEM TABLE
 CREATE TABLE product_item (
@@ -85,8 +77,6 @@ CREATE TABLE product_item (
     service_order_id INT,
     product_id INT,
     quantity INT,
-    FOREIGN KEY (service_order_id) REFERENCES service_order(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 
