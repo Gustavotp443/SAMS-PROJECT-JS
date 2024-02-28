@@ -1,19 +1,20 @@
 import * as kn from "knex";
 import { ETableNames } from "../../ETableNames";
+import { IStock } from "../../models/stock";
 import { Knex } from "../../knex";
-import { IProduct } from "../../models";
 
 export const create = async (
-  product: Omit<IProduct, "id">,
+  productId: number,
   trx: kn.Knex.Transaction
-): Promise<IProduct | Error> => {
+): Promise<IStock | Error> => {
   try {
-    const [result] = await Knex(ETableNames.products)
+    const [result] = await Knex(ETableNames.stock)
       .transacting(trx)
-      .insert(product)
+      .insert({
+        product_id: productId,
+        quantity: 0,
+      })
       .returning("*");
-
-    console.log(result);
 
     if (typeof result === "object") {
       return result;
