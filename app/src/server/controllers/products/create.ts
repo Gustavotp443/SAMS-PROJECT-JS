@@ -20,7 +20,10 @@ export const createValidation = validation((getSchema) => ({
   ),
 }));
 
-export const create = async (req: Request<{}, {}, IProduct>, res: Response) => {
+export const create = async (
+  req: Request<{}, {}, IBodyProps>,
+  res: Response
+) => {
   const trx = await Knex.transaction();
 
   try {

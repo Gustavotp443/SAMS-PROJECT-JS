@@ -1,57 +1,56 @@
-import {Router} from "express";
+import { Router } from "express";
 import { UserController } from "./../controllers";
 import { ProductController } from "../controllers/products";
 
 const router = Router();
 
-router.get("/", (_,res) => {
+router.get("/", (_, res) => {
   return res.send("Olá bem vindo ao SAMS!");
 });
 
 //Users
 router.post(
-  "/user", 
-  UserController.createValidation,
-  UserController.create
+  "/register",
+  UserController.signupValidation,
+  UserController.signup
 );
+router.post("/login", UserController.signinValidation, UserController.signin);
 router.get(
-  "/user/:id", 
+  "/user/:id",
   UserController.getByIdValidation,
   UserController.getById
 );
 router.delete(
-  "/user/:id", 
+  "/user/:id",
   UserController.deleteByIdValidation,
   UserController.deleteById
 );
 
 //Products
 router.post(
-  "/product", 
+  "/product",
   ProductController.createValidation,
   ProductController.create
 );
 router.get(
-  "/product", 
+  "/product",
   ProductController.getAllValidation,
   ProductController.getAll
 );
 router.get(
-  "/product/:id", 
+  "/product/:id",
   ProductController.getByIdValidation,
   ProductController.getById
 );
 router.put(
-  "/product/:id", 
+  "/product/:id",
   ProductController.updateByIdValidation,
   ProductController.updateById
 );
 router.delete(
-  "/product/:id", 
+  "/product/:id",
   ProductController.deleteByIdValidation,
   ProductController.deleteById
 );
 
-
-
-export {router};
+export { router };

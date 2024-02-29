@@ -9,7 +9,7 @@ import { DuplicateEmailError } from "../../utils/errors/duplicateEmailError";
 interface IBodyProps extends Omit<IUser, "id" | "created_at"> {} //Omit omite atributos
 
 //Middleware de validação
-export const createValidation = validation((getSchema) => ({
+export const signupValidation = validation((getSchema) => ({
   body: getSchema<IBodyProps>(
     yup.object().shape({
       name: yup.string().required().min(3),
@@ -19,7 +19,10 @@ export const createValidation = validation((getSchema) => ({
   ),
 }));
 
-export const create = async (req: Request<{}, {}, IUser>, res: Response) => {
+export const signup = async (
+  req: Request<{}, {}, IBodyProps>,
+  res: Response
+) => {
   const result = await UserProvider.create(req.body);
 
   if (result instanceof Error) {

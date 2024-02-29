@@ -1,8 +1,11 @@
-import * as create from "./create";
+import * as signup from "./signup";
 import * as getById from "./getById";
 import * as deleteById from "./deleteById";
+import * as signin from "./signin";
+
 export const UserController = {
-  ...create,  //add all exports with spread 
   ...getById,
-  ...deleteById
+  ...deleteById,
+  ...signin,
+  ...signup,
 };
