@@ -13,11 +13,13 @@ export const seed = async (knex: Knex) => {
 
 const productsBase = [
   {
+    id: 1,
     user_id: 1,
     name: "produto1",
     price: 30.0,
   },
   {
+    id: 2,
     user_id: 1,
     name: "produto2",
     price: 25.0,
