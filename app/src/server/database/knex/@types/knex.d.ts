@@ -5,8 +5,8 @@ declare module "knex/types/tables" {
     users: IUser;
     products: IProduct;
     stock: IStock;
-    // address:IAddress,
-    // clients:IClient,
+    address: IAddress;
+    clients: IClient;
     // vehicles:IVehicle,
     // employees:IEmployees,
     // serviceOrders:IServiceOrder,
