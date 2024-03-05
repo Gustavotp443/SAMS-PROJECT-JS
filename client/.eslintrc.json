@@ -7,7 +7,6 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
@@ -17,6 +16,23 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
-    "@typescript-eslint/ban-types": "off"
-  }
+    "@typescript-eslint/ban-types": "off",
+    "react/react-in-jsx-scope": "off", // Para evitar reclamações sobre importações de React
+    "react/jsx-uses-react": "off",
+    "prettier/prettier": ["error", { "endOfLine": "auto" }] // Para resolver problemas com quebras de linha
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-uses-react": "off"
+      }
+    }
+  ]
 }
