@@ -7,7 +7,7 @@ export async function up(knex: Knex) {
       table.bigIncrements("id").primary().notNullable(); // INT AUTO_INCREMENT PRIMARY KEY
       table.bigInteger("user_id").unsigned().notNullable(); // INT
       table.bigInteger("address_id").unsigned().notNullable(); // INT
-      table.string("email", 100).checkLength("<=", 100).notNullable().unique(); // VARCHAR(100)
+      table.string("email", 100).checkLength("<=", 100).unique().notNullable(); // VARCHAR(100)
       table.string("phone", 11).checkLength("=", 11).notNullable(); // VARCHAR(20)
 
       // Assuming there's a table for users that client.user_id references

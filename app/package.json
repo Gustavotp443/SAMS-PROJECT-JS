@@ -14,7 +14,8 @@
     "knex:migrate": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:latest",
     "knex:rollback": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:rollback",
     "knex:rollback-all": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:rollback --all",
-    "knex:seed": "npx knex --knexfile ./src/server/database/knex/enviroment.ts seed:run"
+    "knex:seed": "npx knex --knexfile ./src/server/database/knex/enviroment.ts seed:run",
+    "knex:unlock": "npx knex --knexfile ./src/server/database/knex/enviroment.ts migrate:unlock"
   },
   "keywords": [],
   "author": "Gustavo Teixeira Pardini",

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserController } from "./../controllers";
 import { ProductController } from "../controllers/products";
 import { ensureAuthenticated } from "../shared/middlewares";
+import { ClientController } from "../controllers/clients";
 
 const router = Router();
 
@@ -53,6 +54,14 @@ router.delete(
   ensureAuthenticated,
   ProductController.deleteByIdValidation,
   ProductController.deleteById
+);
+
+//client
+router.post(
+  "/client",
+  ensureAuthenticated,
+  ClientController.createValidation,
+  ClientController.create
 );
 
 //LOGIN && REGISTER

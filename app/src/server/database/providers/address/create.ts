@@ -1,16 +1,16 @@
-import * as kn from "knex";
 import { ETableNames } from "../../ETableNames";
 import { Knex } from "../../knex";
-import { IProduct } from "../../models";
+import { IAddress } from "../../models";
+import * as kn from "knex";
 
 export const create = async (
-  product: Omit<IProduct, "id">,
+  address: Omit<IAddress, "id">,
   trx: kn.Knex.Transaction
-): Promise<IProduct | Error> => {
+): Promise<IAddress | Error> => {
   try {
-    const [result] = await Knex(ETableNames.products)
+    const [result] = await Knex(ETableNames.address)
       .transacting(trx)
-      .insert(product)
+      .insert(address)
       .returning("*");
 
     if (typeof result === "object") {
@@ -19,7 +19,6 @@ export const create = async (
 
     return new Error("Error when registering data!");
   } catch (e) {
-    console.error(e);
     return new Error("Error when registering data!");
   }
 };

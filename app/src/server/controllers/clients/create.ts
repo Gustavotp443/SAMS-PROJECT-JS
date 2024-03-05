@@ -3,11 +3,16 @@ import * as yup from "yup";
 import { validation } from "../../shared/middlewares";
 import { StatusCodes } from "http-status-codes";
 import { IAddress, IClient } from "../../database/models";
-import { ProductProvider } from "../../database/providers/products";
-import { StockProvider } from "../../database/providers/stock";
 import { Knex } from "../../database/knex";
+import { AddressProvider } from "../../database/providers/address";
+import { ClientProvider } from "../../database/providers/clients";
+import { DuplicateEmailError } from "../../utils/errors/duplicateEmailError";
 
-type IBodyProps = Omit<IClient, "id" | "address_id"> & Omit<IAddress, "id">; //Omit omite atributos
+interface IAddressProps extends Omit<IAddress, "id"> {}
+interface IClientProps extends Omit<IClient, "id" | "address_id"> {}
+interface IBodyProps extends IClientProps {
+  address: IAddressProps;
+}
 
 //Middleware de validação
 export const createValidation = validation((getSchema) => ({
@@ -18,14 +23,20 @@ export const createValidation = validation((getSchema) => ({
       phone: yup
         .string()
         .required()
-        .min(11)
-        .matches(/^|d{20}$)/, "Phone must be 11 digits"),
-
-      street: yup.string.required(),
-      city: yup.string().required(),
-      state: yup.string().required(),
-      code: yup.string().required().matches(/^|d{8}$)/, "Code must be 8 digits"),
-      ,
+        .matches(/^\d{11}$/, "Phone must be 11 digits"),
+      address: yup
+        .object()
+        .shape({
+          // Aqui definimos o esquema para o objeto address
+          street: yup.string().required(),
+          city: yup.string().required(),
+          state: yup.string().required(),
+          code: yup
+            .string()
+            .required()
+            .matches(/^\d{8}$/, "Code must be 8 digits"),
+        })
+        .required(), // Indicamos que o objeto address é obrigatório
     })
   ),
 }));
@@ -37,32 +48,46 @@ export const create = async (
   const trx = await Knex.transaction();
 
   try {
-    const result = await ProductProvider.create(req.body, trx);
+    const { address, ...client } = req.body;
 
-    if (result instanceof Error) {
+    const addressResult = await AddressProvider.create(address, trx);
+
+    if (addressResult instanceof Error) {
       await trx.rollback();
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         errors: {
-          default: result.message,
+          default: addressResult.message,
         },
       });
     }
 
-    const stockResult = await StockProvider.create(result.id, trx);
+    const clientResult = await ClientProvider.create(
+      client,
+      addressResult.id,
+      trx
+    );
 
-    if (stockResult instanceof Error) {
+    if (clientResult instanceof Error) {
       await trx.rollback();
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        errors: {
-          default: stockResult.message,
-        },
-      });
+      if (clientResult instanceof DuplicateEmailError) {
+        return res.status(StatusCodes.CONFLICT).json({
+          errors: {
+            email: clientResult.message,
+          },
+        });
+      } else {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+          errors: {
+            default: clientResult.message,
+          },
+        });
+      }
     }
 
     await trx.commit();
     return res.status(StatusCodes.CREATED).json({
-      ...result,
-      quantity: stockResult.quantity,
+      ...clientResult,
+      address: address,
     });
   } catch (error) {
     await trx.rollback();

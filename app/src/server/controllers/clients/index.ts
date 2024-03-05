@@ -1,4 +1,5 @@
 import * as create from "./create";
-export const ClientProvider = {
+
+export const ClientController = {
   ...create, //add all exports with spread
 };
