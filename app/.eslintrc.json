@@ -9,8 +9,20 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+        "semi": true,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "trailingComma": "none",
+        "printWidth": 80,
+        "jsxBracketSameLine": false // Use "bracketSameLine": false se estiver usando uma versão do Prettier >= 2.4
+      }
+    ],
     "indent": [
       "error",
       2,
