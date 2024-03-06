@@ -42,5 +42,5 @@ const verify = (
 
 export const JWTService = {
   sign,
-  verify,
+  verify
 };

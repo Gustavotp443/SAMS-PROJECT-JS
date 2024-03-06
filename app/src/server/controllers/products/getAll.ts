@@ -18,9 +18,9 @@ export const getAllValidation = validation((getSchema) => ({
       page: yup.number().optional().moreThan(0),
       limit: yup.number().optional().moreThan(0),
       id: yup.number().integer().optional().default(0),
-      filter: yup.string().optional(),
+      filter: yup.string().optional()
     })
-  ),
+  )
 }));
 
 export const getAll = async (
@@ -37,11 +37,11 @@ export const getAll = async (
 
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: { default: result.message },
+      errors: { default: result.message }
     });
   } else if (count instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      errors: { default: count.message },
+      errors: { default: count.message }
     });
   }
 

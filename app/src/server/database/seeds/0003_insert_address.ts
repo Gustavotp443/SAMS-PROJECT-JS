@@ -17,6 +17,6 @@ const addressBase = [
     street: "Rua da Goiaba",
     city: "São Bernardo do Campo",
     state: "São Paulo",
-    code: "09000001",
-  },
+    code: "09000001"
+  }
 ];

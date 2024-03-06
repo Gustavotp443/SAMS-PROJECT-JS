@@ -14,9 +14,9 @@ export const signinValidation = validation((getSchema) => ({
   body: getSchema<IBodyProps>(
     yup.object().shape({
       email: yup.string().required().email(),
-      password: yup.string().required().min(6), // Altere os requisitos conforme necessário
+      password: yup.string().required().min(6) // Altere os requisitos conforme necessário
     })
-  ),
+  )
 }));
 
 export const signin = async (
@@ -30,8 +30,8 @@ export const signin = async (
   if (user instanceof Error) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: {
-        default: "Email or password not valid",
-      },
+        default: "Email or password not valid"
+      }
     });
   }
   const passwordMatch = await passwordCrypto.verifyPassword(
@@ -42,16 +42,16 @@ export const signin = async (
   if (!passwordMatch) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: {
-        default: "Email ou senha são inválidos",
-      },
+        default: "Email ou senha são inválidos"
+      }
     });
   } else {
     const accessToken = JWTService.sign({ uid: user.id });
     if (accessToken === "JWT_SECRET_NOT_FOUND") {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         errors: {
-          default: "Error generating access token",
-        },
+          default: "Error generating access token"
+        }
       });
     }
 

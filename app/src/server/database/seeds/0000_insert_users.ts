@@ -13,7 +13,7 @@ export const seed = async (knex: Knex) => {
       const hashedPassword = await passwordCrypto.hashPassword(user.password);
       return {
         ...user,
-        password: hashedPassword,
+        password: hashedPassword
       };
     })
   );
@@ -26,6 +26,6 @@ const usersBase = [
     id: 1,
     name: "Gustavo Pardini",
     email: "gustavo@email.com",
-    password: "12345678",
-  },
+    password: "12345678"
+  }
 ];

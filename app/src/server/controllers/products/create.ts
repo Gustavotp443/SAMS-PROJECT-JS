@@ -15,9 +15,9 @@ export const createValidation = validation((getSchema) => ({
     yup.object().shape({
       user_id: yup.number().required(),
       name: yup.string().required().min(3),
-      price: yup.number().required(),
+      price: yup.number().required()
     })
-  ),
+  )
 }));
 
 export const create = async (
@@ -33,8 +33,8 @@ export const create = async (
       await trx.rollback();
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         errors: {
-          default: result.message,
-        },
+          default: result.message
+        }
       });
     }
 
@@ -44,23 +44,23 @@ export const create = async (
       await trx.rollback();
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         errors: {
-          default: stockResult.message,
-        },
+          default: stockResult.message
+        }
       });
     }
 
     await trx.commit();
     return res.status(StatusCodes.CREATED).json({
       ...result,
-      quantity: stockResult.quantity,
+      quantity: stockResult.quantity
     });
   } catch (error) {
     await trx.rollback();
     console.error(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: "An error occurred during the transaction",
-      },
+        default: "An error occurred during the transaction"
+      }
     });
   }
 };

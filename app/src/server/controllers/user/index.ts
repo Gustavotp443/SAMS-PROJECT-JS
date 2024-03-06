@@ -7,5 +7,5 @@ export const UserController = {
   ...getById,
   ...deleteById,
   ...signin,
-  ...signup,
+  ...signup
 };

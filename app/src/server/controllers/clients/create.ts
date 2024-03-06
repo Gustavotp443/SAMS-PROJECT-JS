@@ -34,11 +34,11 @@ export const createValidation = validation((getSchema) => ({
           code: yup
             .string()
             .required()
-            .matches(/^\d{8}$/, "Code must be 8 digits"),
+            .matches(/^\d{8}$/, "Code must be 8 digits")
         })
-        .required(), // Indicamos que o objeto address é obrigatório
+        .required() // Indicamos que o objeto address é obrigatório
     })
-  ),
+  )
 }));
 
 export const create = async (
@@ -56,8 +56,8 @@ export const create = async (
       await trx.rollback();
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         errors: {
-          default: addressResult.message,
-        },
+          default: addressResult.message
+        }
       });
     }
 
@@ -72,14 +72,14 @@ export const create = async (
       if (clientResult instanceof DuplicateEmailError) {
         return res.status(StatusCodes.CONFLICT).json({
           errors: {
-            email: clientResult.message,
-          },
+            email: clientResult.message
+          }
         });
       } else {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
           errors: {
-            default: clientResult.message,
-          },
+            default: clientResult.message
+          }
         });
       }
     }
@@ -87,15 +87,15 @@ export const create = async (
     await trx.commit();
     return res.status(StatusCodes.CREATED).json({
       ...clientResult,
-      address: address,
+      address: address
     });
   } catch (error) {
     await trx.rollback();
     console.error(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: "An error occurred during the transaction",
-      },
+        default: "An error occurred during the transaction"
+      }
     });
   }
 };

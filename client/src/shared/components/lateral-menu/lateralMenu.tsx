@@ -11,7 +11,7 @@ import {
   useTheme
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import { Inbox } from "@mui/icons-material";
+// import { Inbox } from "@mui/icons-material";
 interface ILateralMenuProps {
   children?: React.ReactNode;
 }
@@ -61,9 +61,7 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
           <Box flex={1}>
             <List component="nav">
               <ListItemButton>
-                <ListItemIcon>
-                  <Inbox />
-                </ListItemIcon>
+                <ListItemIcon>{/* <Inbox /> */}</ListItemIcon>
                 <ListItemText primary="Inbox" />
               </ListItemButton>
             </List>

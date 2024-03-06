@@ -5,7 +5,7 @@ import * as getById from "./getById";
 import * as deleteById from "./deleteById";
 import * as count from "./count";
 export const ProductProvider = {
-  ...create,  //add all exports with spread 
+  ...create, //add all exports with spread
   ...getAll,
   ...updateById,
   ...getById,

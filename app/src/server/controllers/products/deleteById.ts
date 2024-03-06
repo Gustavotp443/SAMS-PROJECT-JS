@@ -12,17 +12,17 @@ interface IParamProps {
 export const deleteByIdValidation = validation((getSchema) => ({
   params: getSchema<IParamProps>(
     yup.object().shape({
-      id: yup.number().integer().required().moreThan(0),
+      id: yup.number().integer().required().moreThan(0)
     })
-  ),
+  )
 }));
 
 export const deleteById = async (req: Request<IParamProps>, res: Response) => {
   if (!req.params.id) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       errors: {
-        default: "Id not informed",
-      },
+        default: "Id not informed"
+      }
     });
   }
 
@@ -30,8 +30,8 @@ export const deleteById = async (req: Request<IParamProps>, res: Response) => {
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: result.message,
-      },
+        default: result.message
+      }
     });
   }
 

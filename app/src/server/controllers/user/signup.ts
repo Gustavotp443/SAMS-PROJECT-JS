@@ -14,9 +14,9 @@ export const signupValidation = validation((getSchema) => ({
     yup.object().shape({
       name: yup.string().required().min(3),
       email: yup.string().required().email(),
-      password: yup.string().required().min(6), // Altere os requisitos conforme necessário
+      password: yup.string().required().min(6) // Altere os requisitos conforme necessário
     })
-  ),
+  )
 }));
 
 export const signup = async (
@@ -29,15 +29,15 @@ export const signup = async (
     if (result instanceof DuplicateEmailError) {
       return res.status(StatusCodes.CONFLICT).json({
         errors: {
-          email: result.message,
-        },
+          email: result.message
+        }
       });
     }
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: result.message,
-      },
+        default: result.message
+      }
     });
   }
 

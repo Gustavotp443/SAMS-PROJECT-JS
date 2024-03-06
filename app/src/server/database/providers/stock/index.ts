@@ -5,5 +5,5 @@ import * as getById from "./getById";
 export const StockProvider = {
   ...create,
   ...updateById,
-  ...getById,
+  ...getById
 };

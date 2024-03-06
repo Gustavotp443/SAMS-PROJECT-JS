@@ -3,5 +3,5 @@ export enum ETableNames {
   products = "products",
   stock = "stock",
   address = "address",
-  clients = "clients",
+  clients = "clients"
 }

@@ -6,5 +6,5 @@ export const UserProvider = {
   ...create, //add all exports with spread
   ...getById,
   ...deleteById,
-  ...getByEmail,
+  ...getByEmail
 };

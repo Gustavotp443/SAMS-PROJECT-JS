@@ -12,7 +12,7 @@ export const create = async (
       .transacting(trx)
       .insert({
         product_id: productId,
-        quantity: 0,
+        quantity: 0
       })
       .returning("*");
 

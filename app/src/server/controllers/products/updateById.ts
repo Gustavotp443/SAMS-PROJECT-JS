@@ -17,14 +17,14 @@ export const updateByIdValidation = validation((getSchema) => ({
     yup.object().shape({
       user_id: yup.number().required(),
       name: yup.string().required().min(3),
-      price: yup.number().required(),
+      price: yup.number().required()
     })
   ),
   params: getSchema<IParamProps>(
     yup.object().shape({
-      id: yup.number().integer().required().moreThan(0),
+      id: yup.number().integer().required().moreThan(0)
     })
-  ),
+  )
 }));
 
 export const updateById = async (
@@ -34,8 +34,8 @@ export const updateById = async (
   if (!req.params.id) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       errors: {
-        default: "Id not informed",
-      },
+        default: "Id not informed"
+      }
     });
   }
 
@@ -43,8 +43,8 @@ export const updateById = async (
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: result.message,
-      },
+        default: result.message
+      }
     });
   }
 

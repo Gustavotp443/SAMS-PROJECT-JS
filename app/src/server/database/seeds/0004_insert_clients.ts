@@ -17,6 +17,6 @@ const clientsBase = [
     user_id: 1,
     address_id: 1,
     email: "cliente1@email.com",
-    phone: "12345678901",
-  },
+    phone: "12345678901"
+  }
 ];

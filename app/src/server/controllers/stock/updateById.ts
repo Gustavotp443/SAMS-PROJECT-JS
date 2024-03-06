@@ -15,14 +15,14 @@ interface IBodyProps extends Omit<IStock, "id" | "product_id"> {} //Omit omite a
 export const updateByIdValidation = validation((getSchema) => ({
   body: getSchema<IBodyProps>(
     yup.object().shape({
-      quantity: yup.number().required().moreThan(0),
+      quantity: yup.number().required().moreThan(0)
     })
   ),
   params: getSchema<IParamProps>(
     yup.object().shape({
-      id: yup.number().integer().required().moreThan(0),
+      id: yup.number().integer().required().moreThan(0)
     })
-  ),
+  )
 }));
 
 export const updateById = async (
@@ -32,8 +32,8 @@ export const updateById = async (
   if (!req.params.id) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       errors: {
-        default: "Id not informed",
-      },
+        default: "Id not informed"
+      }
     });
   }
 
@@ -41,8 +41,8 @@ export const updateById = async (
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
-        default: result.message,
-      },
+        default: result.message
+      }
     });
   }
 
