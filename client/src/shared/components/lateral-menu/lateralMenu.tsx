@@ -13,7 +13,7 @@ import {
   useTheme
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import { useDrawerContext } from "../../contexts";
+import { useAppThemeContext, useDrawerContext } from "../../contexts";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 interface ILateralMenuProps {
@@ -68,6 +68,7 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
   const smDown = useMediaQuery(theme.breakpoints.down("sm")); //600px
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
+  const { toggleTheme } = useAppThemeContext();
   return (
     <>
       <Drawer
@@ -112,6 +113,16 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
                   onClick={smDown ? toggleDrawerOpen : undefined}
                 />
               ))}
+            </List>
+          </Box>
+          <Box>
+            <List component="nav">
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <Icon>{icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={label} />
+              </ListItemButton>
             </List>
           </Box>
         </Box>
