@@ -16,6 +16,7 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
+    "react/prop-types": "off",
     "@typescript-eslint/ban-types": "off",
     "react/react-in-jsx-scope": "off", // Para evitar reclamações sobre importações de React
     "react/jsx-uses-react": "off",
