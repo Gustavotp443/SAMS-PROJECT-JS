@@ -117,11 +117,11 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
           </Box>
           <Box>
             <List component="nav">
-              <ListItemButton onClick={handleClick}>
+              <ListItemButton onClick={toggleTheme}>
                 <ListItemIcon>
-                  <Icon>{icon}</Icon>
+                  <Icon>dark_mode</Icon>
                 </ListItemIcon>
-                <ListItemText primary={label} />
+                <ListItemText primary="Alterar tema" />
               </ListItemButton>
             </List>
           </Box>

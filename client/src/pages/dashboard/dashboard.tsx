@@ -1,10 +1,11 @@
+import { DetailTolls, ListTolls } from "../../shared/components";
 import { LayoutBasePage } from "../../shared/layouts";
 
 export const Dashboard = () => {
   return (
     <LayoutBasePage
       titulo="Página inicial"
-      barraDeFerramentas={<>Barra de Ferramentas</>}
+      barraDeFerramentas={<DetailTolls />}
     >
       Testando
     </LayoutBasePage>
