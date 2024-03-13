@@ -5,7 +5,9 @@ export const Dashboard = () => {
   return (
     <LayoutBasePage
       titulo="Página inicial"
-      barraDeFerramentas={<DetailTolls />}
+      barraDeFerramentas={
+        <DetailTolls showButtonSaveAndBack showButtonSaveAndBackLoading />
+      }
     >
       Testando
     </LayoutBasePage>
