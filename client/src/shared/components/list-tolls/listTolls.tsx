@@ -1,5 +1,6 @@
 import { Box, Button, Icon, Paper, TextField, useTheme } from "@mui/material";
 import React from "react";
+import { enviromnent } from "../../environment";
 
 interface IListTolls {
   textSearch?: string;
@@ -35,7 +36,7 @@ export const ListTolls: React.FC<IListTolls> = ({
           size="small"
           value={textSearch}
           onChange={e => onChangeSearchText?.(e.target.value)}
-          placeholder="Pesquisar..."
+          placeholder={enviromnent.INPUT_SEARCH}
         />
       )}
       <Box flex={1} display="flex" justifyContent="end">
@@ -44,6 +45,7 @@ export const ListTolls: React.FC<IListTolls> = ({
             color="primary"
             disableElevation
             variant="contained"
+            onClick={onClickNew}
             endIcon={<Icon>add</Icon>}
           >
             {textNewButton}
