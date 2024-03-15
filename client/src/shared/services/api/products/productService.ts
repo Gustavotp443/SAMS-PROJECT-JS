@@ -38,7 +38,7 @@ const create = async (
   dados: Omit<ICreateProduct, "id">
 ): Promise<number | Error> => {
   try {
-    const { data } = await api.post<ICreateProduct>(`/products`, dados);
+    const { data } = await api.post<ICreateProduct>(`/product`, dados);
 
     if (data) {
       return data.id;
@@ -55,7 +55,7 @@ const create = async (
 
 const deleteById = async (id: number): Promise<void | Error> => {
   try {
-    await api.delete(`/products/${id}`);
+    await api.delete(`/product/${id}`);
   } catch (error) {
     console.error(error);
     return new Error(
@@ -69,7 +69,7 @@ const getAll = async (
   filter = ""
 ): Promise<TProductWithTotalCount | Error> => {
   try {
-    const urlRelativa = `/products?page=${page}&limit=${enviromnent.LINE_LIMITS}&filter=${filter}`;
+    const urlRelativa = `/product?page=${page}&limit=${enviromnent.LINE_LIMITS}&filter=${filter}`;
     const { data, headers } = await api.get(urlRelativa);
 
     if (data) {
@@ -90,7 +90,7 @@ const getAll = async (
 
 const getById = async (id: number): Promise<IDetailProduct | Error> => {
   try {
-    const { data } = await api.get(`/products/${id}`);
+    const { data } = await api.get(`/product/${id}`);
 
     if (data) {
       return data;
@@ -110,7 +110,7 @@ const updateById = async (
   dados: IUpdateProduct
 ): Promise<void | Error> => {
   try {
-    await api.put(`/products/${id}`, dados);
+    await api.put(`/product/${id}`, dados);
   } catch (error) {
     console.error(error);
     return new Error(
