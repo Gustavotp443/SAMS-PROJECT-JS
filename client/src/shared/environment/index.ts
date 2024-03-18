@@ -2,7 +2,7 @@ export const enviromnent = {
   /**
    * Define a quantidade de linhas a ser carregada
    */
-  LINE_LIMITS: 10,
+  LINE_LIMITS: 5,
 
   /**
    * Define o texto de pesquisa dos inputs

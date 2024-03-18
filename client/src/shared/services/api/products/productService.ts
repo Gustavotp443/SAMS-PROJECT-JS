@@ -1,21 +1,7 @@
 import { enviromnent } from "../../../environment";
 import { api } from "../axios-config";
 
-interface IListProduct {
-  id: number;
-  user_id: number;
-  name: string;
-  price: number;
-}
-
-interface IDetailProduct {
-  id: number;
-  user_id: number;
-  name: string;
-  price: number;
-}
-
-interface ICreateProduct {
+export interface IListProduct {
   id: number;
   user_id: number;
   name: string;
@@ -23,7 +9,22 @@ interface ICreateProduct {
   quantity: number;
 }
 
-interface IUpdateProduct {
+export interface IDetailProduct {
+  id: number;
+  user_id: number;
+  name: string;
+  price: number;
+}
+
+export interface ICreateProduct {
+  id: number;
+  user_id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+export interface IUpdateProduct {
   user_id: number;
   name: string;
   price: number;

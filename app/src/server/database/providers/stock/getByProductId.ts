@@ -1,14 +1,18 @@
 import { ETableNames } from "../../ETableNames";
 import { Knex } from "../../knex";
 import { IStock } from "../../models";
+import * as kn from "knex";
 
-export const getById = async (id: number): Promise<IStock | Error> => {
+export const getByProductId = async (
+  productId: number,
+  trx: kn.Knex.Transaction
+): Promise<IStock | Error> => {
   try {
     const result = await Knex(ETableNames.stock)
+      .transacting(trx)
       .select("*")
-      .where("id", "=", id)
+      .where("product_id", "=", productId)
       .first();
-
     if (result) return result;
 
     return new Error("Error when getting data!");

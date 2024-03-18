@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { validation } from "../../shared/middlewares";
 import { StatusCodes } from "http-status-codes";
 import { ProductProvider } from "../../database/providers/products";
+import { Knex } from "../../database/knex";
 
 interface IQueryProps {
   id?: number;
@@ -27,23 +28,30 @@ export const getAll = async (
   req: Request<{}, {}, {}, IQueryProps>,
   res: Response
 ) => {
+  const trx = await Knex.transaction();
+
   const result = await ProductProvider.getAll(
     req.query.page || 1,
     req.query.limit || 20,
     req.query.filter || "",
-    Number(req.query.id)
+    Number(req.query.id),
+    trx
   );
-  const count = await ProductProvider.count(req.query.filter);
+
+  const count = await ProductProvider.count(req.query.filter, trx);
 
   if (result instanceof Error) {
+    await trx.rollback();
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: { default: result.message }
     });
   } else if (count instanceof Error) {
+    await trx.rollback();
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: { default: count.message }
     });
   }
+  await trx.commit();
 
   res.setHeader("access-control-expose-headers", "x-total-count");
   res.setHeader("x-total-count", count);

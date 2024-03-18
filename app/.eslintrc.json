@@ -18,9 +18,9 @@
         "semi": true,
         "singleQuote": false,
         "tabWidth": 2,
-        "trailingComma": "none",
         "printWidth": 80,
-        "jsxBracketSameLine": false // Use "bracketSameLine": false se estiver usando uma versão do Prettier >= 2.4
+        "jsxBracketSameLine": false, // Use "bracketSameLine": false se estiver usando uma versão do Prettier >= 2.4
+        "trailingComma": "none"
       }
     ],
     "indent": [

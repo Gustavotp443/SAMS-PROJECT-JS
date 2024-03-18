@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { validation } from "../../shared/middlewares";
 import { StatusCodes } from "http-status-codes";
 import { ProductProvider } from "../../database/providers/products";
+import { Knex } from "../../database/knex";
+import { StockProvider } from "../../database/providers/stock";
 
 interface IParamProps {
   id?: number;
@@ -26,7 +28,10 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
     });
   }
 
-  const result = await ProductProvider.getById(req.params.id);
+  const trx = await Knex.transaction();
+
+  const result = await ProductProvider.getById(req.params.id, trx);
+
   if (result instanceof Error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
@@ -35,5 +40,15 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
     });
   }
 
-  return res.status(StatusCodes.OK).json(result);
+  const resultStock = await StockProvider.getByProductId(result.id, trx);
+
+  if (resultStock instanceof Error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      errors: {
+        default: resultStock.message
+      }
+    });
+  }
+
+  return res.status(StatusCodes.OK).json({ ...result, quantity });
 };

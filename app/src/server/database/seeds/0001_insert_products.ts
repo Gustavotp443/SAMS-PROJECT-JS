@@ -23,5 +23,65 @@ const productsBase = [
     user_id: 1,
     name: "produto2",
     price: 25.0
+  },
+  {
+    id: 3,
+    user_id: 1,
+    name: "produto3",
+    price: 30.0
+  },
+  {
+    id: 4,
+    user_id: 1,
+    name: "produto4",
+    price: 25.0
+  },
+  {
+    id: 5,
+    user_id: 1,
+    name: "produto5",
+    price: 30.0
+  },
+  {
+    id: 6,
+    user_id: 1,
+    name: "produto6",
+    price: 25.0
+  },
+  {
+    id: 7,
+    user_id: 1,
+    name: "produto7",
+    price: 30.0
+  },
+  {
+    id: 8,
+    user_id: 1,
+    name: "produto8",
+    price: 25.0
+  },
+  {
+    id: 9,
+    user_id: 1,
+    name: "produto9",
+    price: 30.0
+  },
+  {
+    id: 10,
+    user_id: 1,
+    name: "produto10",
+    price: 25.0
+  },
+  {
+    id: 11,
+    user_id: 1,
+    name: "produto11",
+    price: 30.0
+  },
+  {
+    id: 12,
+    user_id: 1,
+    name: "produto12",
+    price: 25.0
   }
 ];
