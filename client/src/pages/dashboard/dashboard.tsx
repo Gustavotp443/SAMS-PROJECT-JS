@@ -1,19 +1,11 @@
-import { DetailTolls, ListTolls } from "../../shared/components";
+import { ListTolls } from "../../shared/components";
 import { LayoutBasePage } from "../../shared/layouts";
 
 export const Dashboard = () => {
   return (
     <LayoutBasePage
-      titulo="Página inicial"
-      barraDeFerramentas={
-        <DetailTolls
-          showButtonSaveAndBack
-          showButtonNew
-          showButtonSaveAndBackLoading
-        />
-      }
-    >
-      Testando
-    </LayoutBasePage>
+      titulo="SAMS"
+      barraDeFerramentas={<ListTolls showNewButton={false} />}
+    ></LayoutBasePage>
   );
 };

@@ -22,7 +22,7 @@ export const updateByIdValidation = validation((getSchema) => ({
       user_id: yup.number().required(),
       name: yup.string().required().min(3),
       price: yup.number().required(),
-      quantity: yup.number().optional().moreThan(0)
+      quantity: yup.number().optional().min(0)
     })
   ),
   params: getSchema<IParamProps>(

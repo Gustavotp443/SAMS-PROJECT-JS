@@ -3,7 +3,7 @@ import { LayoutBasePage } from "../../shared/layouts";
 import { DetailTolls } from "../../shared/components";
 import { useEffect, useState } from "react";
 import { productService } from "../../shared/services/api/products/productService";
-import { VTextField, VForm, useVForm } from "../../shared/forms";
+import { VTextField, VForm, useVForm, IVFormErros } from "../../shared/forms";
 import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
 import * as yup from "yup";
 
@@ -18,7 +18,7 @@ const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
   user_id: yup.number().required(),
   name: yup.string().required().min(3),
   price: yup.number().required(),
-  quantity: yup.number().optional().moreThan(0)
+  quantity: yup.number().optional().min(0)
 });
 
 export const ProductsDetail: React.FC = () => {
@@ -48,8 +48,8 @@ export const ProductsDetail: React.FC = () => {
       formRef.current?.setData({
         user_id: 1,
         name: "",
-        price: "",
-        quantity: ""
+        price: 0,
+        quantity: 0
       });
     }
   }, [id]);
@@ -87,11 +87,13 @@ export const ProductsDetail: React.FC = () => {
         }
       })
       .catch((errors: yup.ValidationError) => {
-        const validationErrors: { [key: string]: string } = {};
+        const validationErrors: IVFormErros = {};
         errors.inner.forEach(error => {
           if (!error.path) return;
+
+          validationErrors[error.path] = error.message;
         });
-        console.log(errors.inner);
+        formRef.current?.setErrors(validationErrors);
       });
   };
 

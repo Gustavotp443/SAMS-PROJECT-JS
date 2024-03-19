@@ -27,31 +27,31 @@ router.delete(
 //Products
 router.post(
   "/product",
-  // ensureAuthenticated,
+  ensureAuthenticated,
   ProductController.createValidation,
   ProductController.create
 );
 router.get(
   "/product",
-  // ensureAuthenticated,
+  ensureAuthenticated,
   ProductController.getAllValidation,
   ProductController.getAll
 );
 router.get(
   "/product/:id",
-  // ensureAuthenticated,
+  ensureAuthenticated,
   ProductController.getByIdValidation,
   ProductController.getById
 );
 router.put(
   "/product/:id",
-  // ensureAuthenticated,
+  ensureAuthenticated,
   ProductController.updateByIdValidation,
   ProductController.updateById
 );
 router.delete(
   "/product/:id",
-  // ensureAuthenticated,
+  ensureAuthenticated,
   ProductController.deleteByIdValidation,
   ProductController.deleteById
 );
