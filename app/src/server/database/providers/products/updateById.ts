@@ -1,13 +1,16 @@
 import { ETableNames } from "../../ETableNames";
 import { Knex } from "../../knex";
 import { IProduct } from "../../models";
+import * as kn from "knex";
 
 export const updateById = async (
   id: number,
-  product: Omit<IProduct, "id" | "user_id">
+  product: Omit<IProduct, "id" | "user_id">,
+  trx: kn.Knex.Transaction
 ): Promise<void | Error> => {
   try {
     const result = await Knex(ETableNames.products)
+      .transacting(trx)
       .update(product)
       .where("id", "=", id);
 

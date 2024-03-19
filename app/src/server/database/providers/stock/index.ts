@@ -1,9 +1,9 @@
 import * as create from "./create";
-import * as updateById from "./updateById";
+import * as updateByProductId from "./updateByProductId";
 import * as getByProductId from "./getByProductId";
 
 export const StockProvider = {
   ...create,
-  ...updateById,
+  ...updateByProductId,
   ...getByProductId
 };

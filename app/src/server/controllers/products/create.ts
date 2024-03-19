@@ -7,7 +7,9 @@ import { ProductProvider } from "../../database/providers/products";
 import { StockProvider } from "../../database/providers/stock";
 import { Knex } from "../../database/knex";
 
-interface IBodyProps extends Omit<IProduct, "id"> {} //Omit omite atributos
+interface IBodyProps extends Omit<IProduct, "id"> {
+  quantity?: number;
+}
 
 //Middleware de validação
 export const createValidation = validation((getSchema) => ({
@@ -15,19 +17,22 @@ export const createValidation = validation((getSchema) => ({
     yup.object().shape({
       user_id: yup.number().required(),
       name: yup.string().required().min(3),
-      price: yup.number().required()
+      price: yup.number().required(),
+      quantity: yup.number().optional().moreThan(0)
     })
   )
 }));
 
 export const create = async (
-  req: Request<{}, {}, IBodyProps>,
+  req: Request<{}, {}, IBodyProps & { quantity?: number }>,
   res: Response
 ) => {
   const trx = await Knex.transaction();
 
+  const { quantity = 0, ...body } = req.body;
+
   try {
-    const result = await ProductProvider.create(req.body, trx);
+    const result = await ProductProvider.create(body, trx);
 
     if (result instanceof Error) {
       await trx.rollback();
@@ -38,7 +43,7 @@ export const create = async (
       });
     }
 
-    const stockResult = await StockProvider.create(result.id, trx);
+    const stockResult = await StockProvider.create(result.id, trx, quantity);
 
     if (stockResult instanceof Error) {
       await trx.rollback();

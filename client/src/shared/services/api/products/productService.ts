@@ -14,6 +14,7 @@ export interface IDetailProduct {
   user_id: number;
   name: string;
   price: number;
+  quantity: number;
 }
 
 export interface ICreateProduct {
@@ -28,6 +29,7 @@ export interface IUpdateProduct {
   user_id: number;
   name: string;
   price: number;
+  quantity: number;
 }
 
 type TProductWithTotalCount = {

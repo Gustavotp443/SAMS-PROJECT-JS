@@ -5,14 +5,15 @@ import { Knex } from "../../knex";
 
 export const create = async (
   productId: number,
-  trx: kn.Knex.Transaction
+  trx: kn.Knex.Transaction,
+  quantity: number
 ): Promise<IStock | Error> => {
   try {
     const [result] = await Knex(ETableNames.stock)
       .transacting(trx)
       .insert({
         product_id: productId,
-        quantity: 0
+        quantity: quantity
       })
       .returning("*");
 

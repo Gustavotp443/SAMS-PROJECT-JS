@@ -1,15 +1,17 @@
 import { ETableNames } from "../../ETableNames";
 import { Knex } from "../../knex";
-import { IStock } from "../../models";
+import * as kn from "knex";
 
-export const updateById = async (
-  id: number,
-  stock: Omit<IStock, "id" | "product_id">
+export const updateByProductId = async (
+  productId: number,
+  trx: kn.Knex.Transaction,
+  quantity: number
 ): Promise<void | Error> => {
   try {
     const result = await Knex(ETableNames.stock)
-      .update(stock)
-      .where("id", "=", id);
+      .transacting(trx)
+      .update({ quantity })
+      .where("product_id", "=", productId);
 
     if (result > 0) return;
 

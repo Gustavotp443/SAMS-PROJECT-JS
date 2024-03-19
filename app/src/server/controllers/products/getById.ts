@@ -33,6 +33,7 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
   const result = await ProductProvider.getById(req.params.id, trx);
 
   if (result instanceof Error) {
+    await trx.rollback();
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
         default: result.message
@@ -43,12 +44,16 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
   const resultStock = await StockProvider.getByProductId(result.id, trx);
 
   if (resultStock instanceof Error) {
+    await trx.rollback();
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
         default: resultStock.message
       }
     });
   }
+  await trx.commit();
 
-  return res.status(StatusCodes.OK).json({ ...result, quantity });
+  return res
+    .status(StatusCodes.OK)
+    .json({ ...result, quantity: resultStock.quantity });
 };
