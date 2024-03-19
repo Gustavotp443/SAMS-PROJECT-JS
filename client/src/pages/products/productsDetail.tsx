@@ -5,13 +5,21 @@ import { useEffect, useState } from "react";
 import { productService } from "../../shared/services/api/products/productService";
 import { VTextField, VForm, useVForm } from "../../shared/forms";
 import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
+import * as yup from "yup";
 
 interface IFormData {
   user_id: number;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number;
 }
+
+const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
+  user_id: yup.number().required(),
+  name: yup.string().required().min(3),
+  price: yup.number().required(),
+  quantity: yup.number().optional().moreThan(0)
+});
 
 export const ProductsDetail: React.FC = () => {
   const { id = "novo" } = useParams<"id">();
@@ -47,33 +55,44 @@ export const ProductsDetail: React.FC = () => {
   }, [id]);
 
   const handleSave = (dados: IFormData) => {
-    dados.user_id = 1; //MUDAR USER ID
-    setIsLoading(true);
-    if (id === "novo") {
-      productService.create(dados).then(result => {
-        setIsLoading(false);
-        if (result instanceof Error) {
-          alert(result.message);
+    dados.user_id = 1; //USERID
+    formValidationSchema
+      .validate(dados, { abortEarly: false })
+      .then(dadosValidados => {
+        setIsLoading(true);
+        if (id === "novo") {
+          productService.create(dadosValidados).then(result => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (isSaveAndClose()) {
+                navigate("/produtos");
+              } else {
+                navigate(`/produtos/detalhe/${result}`);
+              }
+            }
+          });
         } else {
-          if (isSaveAndClose()) {
-            navigate("/produtos");
-          } else {
-            navigate(`/produtos/detalhe/${result}`);
-          }
+          productService.updateById(Number(id), dadosValidados).then(result => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (isSaveAndClose()) {
+                navigate("/produtos");
+              }
+            }
+          });
         }
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validationErrors: { [key: string]: string } = {};
+        errors.inner.forEach(error => {
+          if (!error.path) return;
+        });
+        console.log(errors.inner);
       });
-    } else {
-      productService.updateById(Number(id), dados).then(result => {
-        setIsLoading(false);
-        if (result instanceof Error) {
-          alert(result.message);
-        } else {
-          if (isSaveAndClose()) {
-            navigate("/produtos");
-          }
-        }
-      });
-    }
   };
 
   const handleDelete = (id: number) => {

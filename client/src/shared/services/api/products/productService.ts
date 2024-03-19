@@ -22,14 +22,14 @@ export interface ICreateProduct {
   user_id: number;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number;
 }
 
 export interface IUpdateProduct {
   user_id: number;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number;
 }
 
 type TProductWithTotalCount = {
