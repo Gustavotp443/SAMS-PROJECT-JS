@@ -24,8 +24,8 @@ export const seed = async (knex: Knex) => {
 const usersBase = [
   {
     id: 1,
-    name: "Gustavo Pardini",
-    email: "gustavo@email.com",
+    name: "User1",
+    email: "user1@email.com",
     password: "12345678"
   }
 ];
