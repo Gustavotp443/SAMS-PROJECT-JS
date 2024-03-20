@@ -8,38 +8,38 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { useAuthContext } from "../../contexts";
 import { useState } from "react";
 import * as yup from "yup";
-import { Register } from "./register";
 
-interface ILoginProps {
-  children: React.ReactNode;
-}
-
-const loginSchema = yup.object().shape({
+const registerSchema = yup.object().shape({
+  name: yup.string().required().min(3),
   email: yup.string().required().email(),
   password: yup.string().required().min(6)
 });
 
-export const Login: React.FC<ILoginProps> = ({ children }) => {
-  const { isAuthenticated, login } = useAuthContext();
-  if (isAuthenticated) return <>{children}</>;
+interface IRegisterProps {
+  setRegister: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const [register, setRegister] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
-
+export const Register: React.FC<IRegisterProps> = ({
+  setRegister,
+  isLoading,
+  setIsLoading
+}) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = () => {
     setIsLoading(true);
 
-    loginSchema
-      .validate({ email, password }, { abortEarly: false })
+    registerSchema
+      .validate({ name, email, password }, { abortEarly: false })
       .then(dadosValidados => {
         login(dadosValidados.email, dadosValidados.password).then(() => {
           setIsLoading(false);
@@ -56,10 +56,6 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
         });
       });
   };
-
-  if (register) {
-    return <Register setRegister={(setRegister, isLoading, setIsLoading)} />;
-  }
 
   return (
     <Box
@@ -117,22 +113,24 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
             >
               Entrar
             </Button>
-            <Button
-              variant="contained"
-              onClick={() => setRegister(true)}
-              disabled={isLoading}
-              endIcon={
-                isLoading ? (
-                  <CircularProgress
-                    variant="indeterminate"
-                    color="inherit"
-                    size={20}
-                  />
-                ) : undefined
-              }
-            >
-              Registrar
-            </Button>
+            <Box>
+              <Button
+                variant="contained"
+                disabled={isLoading}
+                endIcon={
+                  isLoading ? (
+                    <CircularProgress
+                      variant="indeterminate"
+                      color="inherit"
+                      size={20}
+                    />
+                  ) : undefined
+                }
+                onClick={() => setRegister(false)}
+              >
+                Voltar para Login
+              </Button>
+            </Box>
           </Box>
         </CardActions>
       </Card>

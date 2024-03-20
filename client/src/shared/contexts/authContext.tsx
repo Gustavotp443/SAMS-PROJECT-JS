@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const accessToken = localStorage.getItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
     if (accessToken) {
-      setAccessToken(JSON.parse(accessToken));
+      setAccessToken(accessToken);
     } else {
       setAccessToken(undefined);
     }
@@ -37,10 +37,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     if (result instanceof Error) {
       return result.message;
     } else {
-      localStorage.setItem(
-        LOCAL_STORAGE_KEY_ACCESS_TOKEN,
-        JSON.stringify(result.accessToken)
-      );
+      localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, result.accessToken);
       setAccessToken(result.accessToken);
     }
   }, []);

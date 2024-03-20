@@ -3,10 +3,15 @@ import { errorInterceptor, responseInterceptor } from "./interceptors";
 import { enviromnent } from "../../../environment";
 
 const api = axios.create({
-  baseURL: enviromnent.URL_BASE,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN") || ""}`
+  baseURL: enviromnent.URL_BASE
+});
+
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  return config;
 });
 
 api.interceptors.response.use(
