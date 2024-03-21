@@ -1,23 +1,18 @@
-import { getUserId } from "../../../utils";
 import { ETableNames } from "../../ETableNames";
-import { IClient } from "../../models";
 import { Knex } from "../../knex";
+import { IAddress } from "../../models";
 import * as kn from "knex";
 
 export const getById = async (
   id: number,
-  trx: kn.Knex.Transaction,
-  token: string
-): Promise<IClient | Error> => {
+  trx: kn.Knex.Transaction
+): Promise<IAddress | Error> => {
   try {
-    const uid = getUserId(token);
-    const result = await Knex(ETableNames.clients)
+    const result = await Knex(ETableNames.address)
       .transacting(trx)
       .select("*")
       .where("id", "=", id)
-      .andWhere("user_id", uid)
       .first();
-
     if (result) return result;
 
     return new Error("Error when getting data!");

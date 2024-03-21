@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
+  CircularProgress,
   Divider,
   Drawer,
   Icon,
@@ -19,6 +20,7 @@ import {
   useDrawerContext
 } from "../../contexts";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
+import { IDetailUser } from "../../services/api/users/userService";
 
 interface ILateralMenuProps {
   children?: React.ReactNode;
@@ -69,11 +71,42 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({
 
 export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
   const theme = useTheme();
+  const { userData } = useAuthContext();
+  const [userDetails, setUserDetails] = useState<IDetailUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const smDown = useMediaQuery(theme.breakpoints.down("sm")); //600px
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
   const { toggleTheme } = useAppThemeContext();
   const { logout } = useAuthContext();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await userData();
+        setUserDetails(data);
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUserData();
+  }, [userData]);
+
+  if (isLoading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh" // Ajuste conforme necessário
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -97,7 +130,7 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
             justifyContent="center"
           >
             <Avatar
-              {...stringAvatar("Gustavo Pardini")}
+              {...stringAvatar(userDetails ? userDetails.name : "")}
               alt="icone para perfil"
               sx={{
                 height: theme.spacing(7),
@@ -105,7 +138,7 @@ export const LateralMenu: React.FC<ILateralMenuProps> = ({ children }) => {
                 bgcolor: deepPurple[500]
               }}
             />
-            <h3>Gustavo</h3>
+            <h3>{userDetails ? userDetails.name : ""}</h3>
           </Box>
           <Divider />
           <Box flex={1}>

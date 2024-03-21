@@ -64,7 +64,35 @@ router.post(
   ClientController.create
 );
 
-//LOGIN && REGISTER
+router.get(
+  "/client",
+  ensureAuthenticated,
+  ClientController.getAllValidation,
+  ClientController.getAll
+);
+
+router.get(
+  "/client/:id",
+  ensureAuthenticated,
+  ClientController.getByIdValidation,
+  ClientController.getById
+);
+
+router.put(
+  "/client/:id",
+  ensureAuthenticated,
+  ClientController.updateByIdValidation,
+  ClientController.updateById
+);
+
+router.delete(
+  "/client/:id",
+  ensureAuthenticated,
+  ClientController.deleteByIdValidation,
+  ClientController.deleteById
+);
+
+router; //LOGIN && REGISTER
 router.post(
   "/register",
   UserController.signupValidation,

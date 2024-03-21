@@ -85,8 +85,10 @@ export const create = async (
     }
 
     await trx.commit();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { address_id, ...clientWithoutAddressId } = clientResult;
     return res.status(StatusCodes.CREATED).json({
-      ...clientResult,
+      ...clientWithoutAddressId,
       address: address
     });
   } catch (error) {

@@ -26,8 +26,6 @@ export const create = async (
       .insert(clientData)
       .returning("*");
 
-    console.log(result);
-
     if (typeof result === "object") {
       return result;
     }
