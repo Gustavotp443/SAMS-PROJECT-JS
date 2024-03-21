@@ -30,7 +30,7 @@ export const test: Knex.Config = {
 export const production: Knex.Config = {
   client: "pg",
   connection: {
-    connectionString: process.env.POSTGRES_URL_NO_SSL,
+    connectionString: process.env.POSTGRES_URL,
     host: process.env.POSTGRES_HOST,
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DATABASE,

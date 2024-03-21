@@ -5,7 +5,7 @@ import { router } from "./routes";
 
 //CONFIGURAÇÕES DO SERVIDOR
 const server = express();
-server.use(cors({ origin: "http://localhost:3000" }));
+server.use(cors());
 
 server.use(express.json());
 server.use(router);
