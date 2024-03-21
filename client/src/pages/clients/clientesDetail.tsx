@@ -20,6 +20,7 @@ import { clientService } from "../../shared/services/api/clients/clientService";
 
 interface IFormData {
   user_id: number;
+  name: string;
   email: string;
   phone: string;
   address: {
@@ -32,6 +33,7 @@ interface IFormData {
 
 const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
   user_id: yup.number().required(),
+  name: yup.string().required().min(3),
   email: yup.string().required().email(),
   phone: yup
     .string()
@@ -71,7 +73,7 @@ export const ClientsDetail: React.FC = () => {
           alert(result.message);
           navigate("/clientes");
         } else {
-          setName(result.email);
+          setName(result.name);
           setSelectedState(result.address.state);
           formRef.current?.setData(result);
         }
@@ -79,6 +81,7 @@ export const ClientsDetail: React.FC = () => {
     } else {
       formRef.current?.setData({
         user_id: getUsertId(),
+        name: "",
         email: "",
         phone: "",
         address: {
@@ -193,10 +196,20 @@ export const ClientsDetail: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
+                  label="Nome"
+                  name="name"
+                  disabled={isLoading}
+                  onChange={e => setName(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
                   label="Email"
                   name="email"
                   disabled={isLoading}
-                  onChange={e => setName(e.target.value)}
                 />
               </Grid>
             </Grid>

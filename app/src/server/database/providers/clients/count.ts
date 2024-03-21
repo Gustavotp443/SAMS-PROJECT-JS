@@ -12,8 +12,7 @@ export const count = async (
     const uid = getUserId(token);
     const [{ count }] = await Knex(ETableNames.clients)
       .transacting(trx)
-      .orWhere("email", "like", `%${filter}%`)
-      .orWhere("phone", "like", `%${filter}%`)
+      .orWhere("name", "like", `%${filter}%`)
       .andWhere("user_id", uid)
       .count<[{ count: number }]>("* as count");
     if (Number.isInteger(Number(count))) return Number(count);

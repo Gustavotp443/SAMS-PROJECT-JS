@@ -16,7 +16,7 @@ const addressBase = [
     id: 1,
     street: "Rua da Goiaba",
     city: "São Bernardo do Campo",
-    state: "São Paulo",
+    state: "SP",
     code: "09000001"
   }
 ];

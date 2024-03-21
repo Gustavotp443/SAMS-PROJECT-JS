@@ -38,6 +38,7 @@ CREATE TABLE address (
 CREATE TABLE client (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
+    name VARCHAR(100),
     email VARCHAR(100),
     phone VARCHAR(20),
 	address_id INT,

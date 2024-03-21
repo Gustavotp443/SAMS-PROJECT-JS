@@ -92,6 +92,7 @@ export const ClientList: React.FC = () => {
             <TableRow>
               <TableCell>Ações</TableCell>
               <TableCell>id</TableCell>
+              <TableCell>nome</TableCell>
               <TableCell>email</TableCell>
               <TableCell>telefone</TableCell>
               <TableCell>rua</TableCell>
@@ -115,6 +116,7 @@ export const ClientList: React.FC = () => {
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
+                <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
                 <TableCell>{row.address.street}</TableCell>

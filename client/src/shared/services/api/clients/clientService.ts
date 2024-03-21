@@ -4,6 +4,7 @@ import { api } from "../axios-config";
 export interface IListClient {
   id: number;
   user_id: number;
+  name: string;
   email: string;
   phone: string;
   address: {
@@ -18,6 +19,7 @@ export interface IListClient {
 export interface IDetailClient {
   id: number;
   user_id: number;
+  name: string;
   email: string;
   phone: string;
   address: {
@@ -31,6 +33,7 @@ export interface IDetailClient {
 
 export interface ICreateClient {
   user_id: number;
+  name: string;
   email: string;
   phone: string;
   address: {
@@ -43,6 +46,7 @@ export interface ICreateClient {
 
 export interface IUpdateClient {
   user_id: number;
+  name: string;
   email: string;
   phone: string;
   address: {

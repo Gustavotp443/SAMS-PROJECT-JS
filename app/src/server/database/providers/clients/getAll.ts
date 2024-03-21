@@ -21,11 +21,11 @@ export const getAll = async (
       .transacting(trx)
       .select("*")
       .where("id", Number(id))
-      .orWhere("email", "like", `%${filter}%`)
-      .orWhere("phone", "like", `%${filter}%`)
+      .orWhere("name", "like", `%${filter}%`)
       .andWhere("user_id", userId)
       .offset((page - 1) * limit)
       .limit(limit);
+
 
     const resultsWithAddress = await Promise.all(result.map(async (client) => {
       const resultAddress = await AddressProvider.getById(client.address_id, trx);
