@@ -15,45 +15,30 @@ import {
   Typography
 } from "@mui/material";
 import * as yup from "yup";
-import { brazilStates, getUsertId } from "../../shared/utils";
-import { clientService } from "../../shared/services/api/clients/clientService";
+import {
+  IListClient,
+  clientService
+} from "../../shared/services/api/clients/clientService";
+import { vehicleService } from "../../shared/services/api/vehicles/vehiclesService";
+import { vehiclesMakes } from "../../shared/utils/vehiclesMakes";
 
 interface IFormData {
-  user_id: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    code: string;
-  };
+  client_id: number;
+  make: string;
+  model: string;
+  year: number;
+  license_plate: string;
 }
 
 const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
-  user_id: yup.number().required(),
-  name: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  phone: yup
-    .string()
-    .required()
-    .matches(/^\d{11}$/, "Phone must be 11 digits"),
-  address: yup
-    .object()
-    .shape({
-      street: yup.string().required(),
-      city: yup.string().required(),
-      state: yup.string().required(),
-      code: yup
-        .string()
-        .required()
-        .matches(/^\d{8}$/, "Code must be 8 digits")
-    })
-    .required()
+  client_id: yup.number().required(),
+  make: yup.string().required().max(100),
+  model: yup.string().required().max(100),
+  year: yup.number().required().min(1900).max(new Date().getFullYear()),
+  license_plate: yup.string().required().max(20)
 });
 
-export const ClientsDetail: React.FC = () => {
+export const VehiclesDetail: React.FC = () => {
   const { id = "novo" } = useParams<"id">();
   const navigate = useNavigate();
 
@@ -61,69 +46,83 @@ export const ClientsDetail: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
-  const [selectedState, setSelectedState] = useState("");
+
+  const [clients, setClients] = useState<IListClient[]>([]);
+  const [selectedClient, setSelectedClient] = useState("");
+  const [selectedMake, setSelectedMake] = useState("");
+
+  useEffect(() => {
+    clientService.getAll().then(result => {
+      if (result instanceof Error) {
+        alert(result.message);
+      } else {
+        setClients(result.data || []);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (id !== "novo") {
       setIsLoading(true);
-
-      clientService.getById(Number(id)).then(result => {
+      vehicleService.getById(Number(id)).then(result => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
-          navigate("/clientes");
+          navigate("/veiculos");
         } else {
-          setName(result.name);
-          setSelectedState(result.address.state);
+          setName(result.model);
+          setSelectedClient(result.client_id.toString());
+          setSelectedMake(result.make);
           formRef.current?.setData(result);
         }
       });
     } else {
       formRef.current?.setData({
-        user_id: getUsertId(),
-        name: "",
-        email: "",
-        phone: "",
-        address: {
-          street: "",
-          city: "",
-          state: "",
-          code: ""
-        }
+        client_id: "",
+        make: "",
+        model: "",
+        year: "",
+        license_plate: ""
       });
-      setSelectedState("");
+      setSelectedClient("");
+      setSelectedMake("");
     }
   }, [id]);
 
   const handleSave = (dados: IFormData) => {
-    dados.user_id = getUsertId(); //USERID
-    dados.address.state = selectedState;
+    if (selectedClient === "") {
+      alert("Cliente não selecionado!");
+      return;
+    } else dados.client_id = Number(selectedClient);
+
+    dados.make = selectedMake;
+
     console.log(dados);
     formValidationSchema
       .validate(dados, { abortEarly: false })
       .then(dadosValidados => {
         setIsLoading(true);
         if (id === "novo") {
-          clientService.create(dadosValidados).then(result => {
+          vehicleService.create(dadosValidados).then(result => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
               if (isSaveAndClose()) {
-                navigate("/clientes");
+                navigate("/veiculos");
               } else {
-                navigate(`/clientes/detalhe/${result}`);
+                navigate(`/veiculos/detalhe/${result}`);
               }
             }
           });
         } else {
-          clientService.updateById(Number(id), dadosValidados).then(result => {
+          vehicleService.updateById(Number(id), dadosValidados).then(result => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
               if (isSaveAndClose()) {
-                navigate("/clientes");
+                navigate("/veiculos");
               }
             }
           });
@@ -142,12 +141,12 @@ export const ClientsDetail: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (confirm("Realmente deseja apagar?")) {
-      clientService.deleteById(id).then(result => {
+      vehicleService.deleteById(id).then(result => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
           alert("Registro apagado com sucesso!");
-          navigate("/clientes");
+          navigate("/veiculos");
         }
       });
     }
@@ -155,7 +154,7 @@ export const ClientsDetail: React.FC = () => {
 
   return (
     <LayoutBasePage
-      titulo={id === "novo" ? "Novo cliente" : name}
+      titulo={id === "novo" ? "Novo veiculo" : name}
       barraDeFerramentas={
         <DetailTolls
           textNewButton="Novo"
@@ -165,15 +164,15 @@ export const ClientsDetail: React.FC = () => {
           onClickSave={save}
           onClickSaveAndBack={saveAndClose}
           onClickDelete={() => handleDelete(Number(id))}
-          onClickGoBack={() => navigate("/clientes")}
-          onClickNew={() => navigate("/clientes/detalhe/novo")}
+          onClickGoBack={() => navigate("/veiculos")}
+          onClickNew={() => navigate("/veiculos/detalhe/novo")}
         />
       }
     >
       <VForm
         ref={formRef}
         onSubmit={handleSave}
-        placeholder={"formulário de clientes"}
+        placeholder={"formulário de veiculos"}
       >
         <Box
           margin={1}
@@ -195,8 +194,8 @@ export const ClientsDetail: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="Nome"
-                  name="name"
+                  label="Modelo"
+                  name="model"
                   disabled={isLoading}
                   onChange={e => setName(e.target.value)}
                 />
@@ -204,64 +203,21 @@ export const ClientsDetail: React.FC = () => {
             </Grid>
             <Grid container item direction="row">
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label="Telefone"
-                  name="phone"
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label="Rua"
-                  name="address.street"
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label="Cidade"
-                  name="address.city"
-                  disabled={isLoading}
-                />
-              </Grid>
-            </Grid>
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <FormControl fullWidth>
-                  <InputLabel>Estado</InputLabel>
+                  <InputLabel>Marca</InputLabel>
                   <Select
-                    label="Estado"
-                    name="address.state"
-                    value={selectedState}
+                    label="Marca"
+                    name="make"
+                    value={selectedMake}
                     onChange={e => {
-                      formRef.current?.setFieldValue(
-                        "address.state",
-                        e.target.value
-                      );
-                      setSelectedState(e.target.value);
+                      formRef.current?.setFieldValue("make", e.target.value);
+                      setSelectedMake(e.target.value);
                     }}
                     disabled={isLoading}
                   >
-                    {brazilStates.map(state => (
-                      <MenuItem key={state.value} value={state.value}>
-                        {state.label}
+                    {vehiclesMakes.map(make => (
+                      <MenuItem key={make} value={make}>
+                        {make}
                       </MenuItem>
                     ))}
                   </Select>
@@ -272,10 +228,52 @@ export const ClientsDetail: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="cep"
-                  name="address.code"
+                  label="Ano"
+                  name="year"
                   disabled={isLoading}
                 />
+              </Grid>
+            </Grid>
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  label="Placa"
+                  name="license_plate"
+                  disabled={isLoading}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <FormControl fullWidth>
+                  <InputLabel>Cliente</InputLabel>
+                  <Select
+                    label="Cliente"
+                    name="client_id"
+                    value={selectedClient}
+                    onChange={e => {
+                      formRef.current?.setFieldValue(
+                        "client_id",
+                        e.target.value
+                      );
+                      setSelectedClient(e.target.value);
+                    }}
+                    disabled={isLoading}
+                  >
+                    {clients.length > 0 ? (
+                      clients.map(client => (
+                        <MenuItem key={client.id} value={client.id}>
+                          {client.name}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem disabled value="">
+                        Nenhum cliente disponível
+                      </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
           </Grid>

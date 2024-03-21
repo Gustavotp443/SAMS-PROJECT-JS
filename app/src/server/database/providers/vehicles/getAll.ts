@@ -24,7 +24,8 @@ export const getAll = async (
       query = query.andWhere(`${ETableNames.vehicles}.id`, Number(id));
     } else if (filter) {
       query = query.andWhere(function() {
-        this.orWhere(`${ETableNames.vehicles}.model`, "like", `%${filter}%`);
+        this.where(`${ETableNames.vehicles}.model`, "like", `%${filter}%`)
+          .orWhere(`${ETableNames.vehicles}.make`, "like", `%${filter}%`);
       });
     }
     

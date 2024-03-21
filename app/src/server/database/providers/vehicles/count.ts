@@ -18,7 +18,11 @@ export const count = async (
       .where(`${ETableNames.clients}.user_id`, uid)
       .andWhere(function () {
         if (filter) {
-          this.where(`${ETableNames.vehicles}.name`, "like", `%${filter}%`);
+          this.where(
+            `${ETableNames.vehicles}.model`,
+            "like",
+            `%${filter}%`
+          ).orWhere(`${ETableNames.vehicles}.make`, "like", `%${filter}%`);
         }
       })
       .count<[{ count: number }]>("* as count");

@@ -4,6 +4,8 @@ import { useDrawerContext } from "../shared/contexts";
 import { Dashboard, ProductsDetail, ProductsList } from "../pages";
 import { ClientList } from "../pages/clients/clientsList";
 import { ClientsDetail } from "../pages/clients/clientesDetail";
+import { VehiclesList } from "../pages/vehicles/vehiclesList";
+import { VehiclesDetail } from "../pages/vehicles/vehiclesDetail";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -24,6 +26,11 @@ export const AppRoutes = () => {
         label: "Clientes",
         icon: "person-icon",
         path: "/clientes"
+      },
+      {
+        label: "Veiculos",
+        icon: "garage",
+        path: "/veiculos"
       }
     ]);
   }, []);
@@ -37,6 +44,9 @@ export const AppRoutes = () => {
 
       <Route path="/clientes" element={<ClientList />} />
       <Route path="/clientes/detalhe/:id" element={<ClientsDetail />} />
+
+      <Route path="/veiculos" element={<VehiclesList />} />
+      <Route path="/veiculos/detalhe/:id" element={<VehiclesDetail />} />
 
       <Route path="*" element={<Navigate to="/inicio" />} />
     </Routes>
