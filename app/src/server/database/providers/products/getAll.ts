@@ -4,20 +4,24 @@ import { Knex } from "../../knex";
 import { IProduct } from "../../models";
 import * as kn from "knex";
 import { StockProvider } from "../stock";
+import { getUserId } from "../../../utils";
 
 export const getAll = async (
   page: number,
   limit: number,
   filter: string,
   id = 0,
-  trx: kn.Knex.Transaction
+  trx: kn.Knex.Transaction,
+  token: string
 ): Promise<IProduct[] | Error> => {
   try {
+    const userId = getUserId(token);
     const result = await Knex(ETableNames.products)
       .transacting(trx)
       .select("*")
       .where("id", Number(id))
       .orWhere("name", "like", `%${filter}%`)
+      .andWhere("user_id", userId)
       .offset((page - 1) * limit)
       .limit(limit);
 
@@ -38,6 +42,7 @@ export const getAll = async (
         .transacting(trx)
         .select("*")
         .where("id", "=", id)
+        .andWhere("user_id", userId)
         .first();
 
 

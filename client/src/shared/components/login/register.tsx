@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import * as yup from "yup";
+import { userService } from "../../services/api/users/userService";
 
 const registerSchema = yup.object().shape({
   name: yup.string().required().min(3),
@@ -41,8 +42,9 @@ export const Register: React.FC<IRegisterProps> = ({
     registerSchema
       .validate({ name, email, password }, { abortEarly: false })
       .then(dadosValidados => {
-        login(dadosValidados.email, dadosValidados.password).then(() => {
+        userService.register(dadosValidados).then(() => {
           setIsLoading(false);
+          setRegister(false);
         });
       })
       .catch((errors: yup.ValidationError) => {
@@ -52,6 +54,8 @@ export const Register: React.FC<IRegisterProps> = ({
             setEmailError(error.message);
           } else if (error.path === "password") {
             setPasswordError(error.message);
+          } else if (error.path === "name") {
+            setNameError(error.message);
           }
         });
       });
@@ -69,8 +73,19 @@ export const Register: React.FC<IRegisterProps> = ({
         <CardContent>
           <Box display="flex" flexDirection="column" gap={2} width={250}>
             <Typography variant="h6" align="center">
-              Indentifique-se
+              Cadastro
             </Typography>
+            <TextField
+              fullWidth
+              type="name"
+              label="Nome"
+              value={name}
+              disabled={isLoading}
+              error={!!nameError}
+              helperText={nameError}
+              onChange={e => setName(e.target.value)}
+              onKeyDown={() => setNameError("")}
+            />
             <TextField
               fullWidth
               type="email"
@@ -111,7 +126,7 @@ export const Register: React.FC<IRegisterProps> = ({
                 ) : undefined
               }
             >
-              Entrar
+              Cadastrar
             </Button>
             <Box>
               <Button
@@ -128,7 +143,7 @@ export const Register: React.FC<IRegisterProps> = ({
                 }
                 onClick={() => setRegister(false)}
               >
-                Voltar para Login
+                Voltar ao Login
               </Button>
             </Box>
           </Box>

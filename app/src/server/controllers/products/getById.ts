@@ -29,8 +29,9 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
   }
 
   const trx = await Knex.transaction();
+  const token = (req.headers.authorization ?? "").split(" ")[1];
 
-  const result = await ProductProvider.getById(req.params.id, trx);
+  const result = await ProductProvider.getById(req.params.id, trx, token);
 
   if (result instanceof Error) {
     await trx.rollback();

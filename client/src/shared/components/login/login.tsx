@@ -58,7 +58,13 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
   };
 
   if (register) {
-    return <Register setRegister={(setRegister, isLoading, setIsLoading)} />;
+    return (
+      <Register
+        setRegister={setRegister}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
+    );
   }
 
   return (

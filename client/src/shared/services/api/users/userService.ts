@@ -1,47 +1,22 @@
-import { enviromnent } from "../../../environment";
 import { api } from "../axios-config";
 
-export interface IListProduct {
+export interface IDetailUser {
   id: number;
-  user_id: number;
   name: string;
-  price: number;
-  quantity: number;
+  email: string;
+  password: string;
+  created_at: string;
 }
 
-export interface IDetailProduct {
-  id: number;
-  user_id: number;
+export interface ICreateUser {
   name: string;
-  price: number;
-  quantity: number;
+  email: string;
+  password: string;
 }
 
-export interface ICreateProduct {
-  id: number;
-  user_id: number;
-  name: string;
-  price: number;
-  quantity?: number;
-}
-
-export interface IUpdateProduct {
-  user_id: number;
-  name: string;
-  price: number;
-  quantity?: number;
-}
-
-type TProductWithTotalCount = {
-  data: IListProduct[];
-  totalCount: number;
-};
-
-const register = async (
-  dados: Omit<ICreateProduct, "id">
-): Promise<number | Error> => {
+const register = async (dados: ICreateUser): Promise<number | Error> => {
   try {
-    const { data } = await api.post<ICreateProduct>(`/product`, dados);
+    const { data } = await api.post<IDetailUser>(`/register`, dados);
 
     if (data) {
       return data.id;
@@ -58,7 +33,7 @@ const register = async (
 
 const deleteById = async (id: number): Promise<void | Error> => {
   try {
-    await api.delete(`/product/${id}`);
+    await api.delete(`/user/${id}`);
   } catch (error) {
     console.error(error);
     return new Error(
@@ -67,9 +42,9 @@ const deleteById = async (id: number): Promise<void | Error> => {
   }
 };
 
-const getById = async (id: number): Promise<IDetailProduct | Error> => {
+const getById = async (id: number): Promise<IDetailUser | Error> => {
   try {
-    const { data } = await api.get(`/product/${id}`);
+    const { data } = await api.get(`/user/${id}`);
 
     if (data) {
       return data;

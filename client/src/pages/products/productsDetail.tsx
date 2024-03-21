@@ -6,6 +6,7 @@ import { productService } from "../../shared/services/api/products/productServic
 import { VTextField, VForm, useVForm, IVFormErros } from "../../shared/forms";
 import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
 import * as yup from "yup";
+import { getUsertId } from "../../shared/utils";
 
 interface IFormData {
   user_id: number;
@@ -46,7 +47,7 @@ export const ProductsDetail: React.FC = () => {
       });
     } else {
       formRef.current?.setData({
-        user_id: 1,
+        user_id: getUsertId(),
         name: "",
         price: 0,
         quantity: 0
@@ -55,7 +56,7 @@ export const ProductsDetail: React.FC = () => {
   }, [id]);
 
   const handleSave = (dados: IFormData) => {
-    dados.user_id = 1; //USERID
+    dados.user_id = getUsertId(); //USERID
     formValidationSchema
       .validate(dados, { abortEarly: false })
       .then(dadosValidados => {

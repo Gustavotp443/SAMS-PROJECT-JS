@@ -26,6 +26,7 @@ Descrição breve do projeto.
   - **React Router DOM**: Utilizado para adicionar navegação entre componentes em aplicativos de página única (SPA).
   - **Unform(@unform/core e @unform/web)**: Uma biblioteca que ajuda com a gestão de formulários no React, oferecendo uma maneira fácil de criar formulários performáticos com validações.
   - **Yup**: Utilizado para esquemas de validação, funcionando muito bem em conjunto com Unform para validar dados de entrada do usuário.
+  - **jwt-decode**: Utilizado para decodificar chave JWT.
 
 ## Requisitos
 

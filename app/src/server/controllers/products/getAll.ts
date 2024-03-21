@@ -29,16 +29,18 @@ export const getAll = async (
   res: Response
 ) => {
   const trx = await Knex.transaction();
+  const token = (req.headers.authorization ?? "").split(" ")[1];
 
   const result = await ProductProvider.getAll(
     req.query.page || 1,
     req.query.limit || 20,
     req.query.filter || "",
     Number(req.query.id),
-    trx
+    trx,
+    token
   );
 
-  const count = await ProductProvider.count(req.query.filter, trx);
+  const count = await ProductProvider.count(req.query.filter, trx, token);
 
   if (result instanceof Error) {
     await trx.rollback();
