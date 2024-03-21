@@ -17,5 +17,8 @@ export const enviromnent = {
   /**
    * Define a URL BASE do projeto
    */
-  URL_BASE: "http://localhost:3333"
+  URL_BASE:
+    process.env.NODE_ENV === "production"
+      ? process.env.SERVER_URL
+      : "http://localhost:3333"
 };
