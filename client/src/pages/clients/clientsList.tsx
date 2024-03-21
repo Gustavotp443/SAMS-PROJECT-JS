@@ -2,10 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ListTolls } from "../../shared/components";
 import { LayoutBasePage } from "../../shared/layouts";
 import { useEffect, useMemo, useState } from "react";
-import {
-  IListProduct,
-  productService
-} from "../../shared/services/api/products/productService";
 import { useDebounce } from "../../shared/hooks";
 import {
   Icon,
@@ -22,13 +18,17 @@ import {
   TableRow
 } from "@mui/material";
 import { enviromnent } from "../../shared/environment";
+import {
+  IListClient,
+  clientService
+} from "../../shared/services/api/clients/clientService";
 
-export const ProductsList: React.FC = () => {
+export const ClientList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState<IListProduct[]>([]);
+  const [rows, setRows] = useState<IListClient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -43,7 +43,7 @@ export const ProductsList: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
-      productService.getAll(pagina, busca).then(result => {
+      clientService.getAll(pagina, busca).then(result => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
@@ -57,7 +57,7 @@ export const ProductsList: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (confirm("Realmente deseja apagar?")) {
-      productService.deleteById(id).then(result => {
+      clientService.deleteById(id).then(result => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
@@ -69,7 +69,7 @@ export const ProductsList: React.FC = () => {
   };
   return (
     <LayoutBasePage
-      titulo="Listagem de produtos"
+      titulo="Listagem de clientes"
       barraDeFerramentas={
         <ListTolls
           showSearchInput
@@ -78,7 +78,7 @@ export const ProductsList: React.FC = () => {
           onChangeSearchText={text =>
             setSearchParams({ busca: text, pagina: "1" }, { replace: true })
           }
-          onClickNew={() => navigate("/produtos/detalhe/novo")}
+          onClickNew={() => navigate("/clientes/detalhe/novo")}
         />
       }
     >
@@ -92,9 +92,12 @@ export const ProductsList: React.FC = () => {
             <TableRow>
               <TableCell>Ações</TableCell>
               <TableCell>id</TableCell>
-              <TableCell>nome</TableCell>
-              <TableCell>preço</TableCell>
-              <TableCell>quantidade</TableCell>
+              <TableCell>email</TableCell>
+              <TableCell>telefone</TableCell>
+              <TableCell>rua</TableCell>
+              <TableCell>cidade</TableCell>
+              <TableCell>estado</TableCell>
+              <TableCell>cep</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -106,15 +109,18 @@ export const ProductsList: React.FC = () => {
                   </IconButton>
                   <IconButton
                     size="small"
-                    onClick={() => navigate(`/produtos/detalhe/${row.id}`)}
+                    onClick={() => navigate(`/clientes/detalhe/${row.id}`)}
                   >
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.price}</TableCell>
-                <TableCell>{row.quantity}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.phone}</TableCell>
+                <TableCell>{row.address.street}</TableCell>
+                <TableCell>{row.address.city}</TableCell>
+                <TableCell>{row.address.state}</TableCell>
+                <TableCell>{row.address.code}</TableCell>
               </TableRow>
             ))}
           </TableBody>
