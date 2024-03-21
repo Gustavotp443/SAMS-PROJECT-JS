@@ -1,5 +1,5 @@
 import { Knex } from "./server/database/knex";
-import { server } from "./server/server";
+import server from "./server/server";
 
 //Rodar npm ts-node-dev ./src/index.ts
 //OBSERVA PORTA E RODA O PROJETO
