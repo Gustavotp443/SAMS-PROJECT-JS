@@ -3,6 +3,7 @@ import { UserController } from "./../controllers";
 import { ProductController } from "../controllers/products";
 import { ensureAuthenticated } from "../shared/middlewares";
 import { ClientController } from "../controllers/clients";
+import { VehiclesController } from "../controllers/vehicles";
 
 const router = Router();
 
@@ -90,6 +91,42 @@ router.delete(
   ensureAuthenticated,
   ClientController.deleteByIdValidation,
   ClientController.deleteById
+);
+
+//Vehicles
+
+router.post(
+  "/vehicle",
+  ensureAuthenticated,
+  VehiclesController.createValidation,
+  VehiclesController.create
+);
+
+router.get(
+  "/vehicle",
+  ensureAuthenticated,
+  VehiclesController.getAllValidation,
+  VehiclesController.getAll
+);
+router.get(
+  "/vehicle/:id",
+  ensureAuthenticated,
+  VehiclesController.getByIdValidation,
+  VehiclesController.getById
+);
+
+router.put(
+  "/vehicle/:id",
+  ensureAuthenticated,
+  VehiclesController.updateByIdValidation,
+  VehiclesController.updateById
+);
+
+router.delete(
+  "/vehicle/:id",
+  ensureAuthenticated,
+  VehiclesController.deleteByIdValidation,
+  VehiclesController.deleteById
 );
 
 router; //LOGIN && REGISTER
