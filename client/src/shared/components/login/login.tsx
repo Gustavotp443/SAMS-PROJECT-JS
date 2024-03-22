@@ -18,8 +18,8 @@ interface ILoginProps {
 }
 
 const loginSchema = yup.object().shape({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(6)
+  email: yup.string().required().email().max(100),
+  password: yup.string().required().min(6).max(100)
 });
 
 export const Login: React.FC<ILoginProps> = ({ children }) => {
@@ -41,9 +41,16 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
     loginSchema
       .validate({ email, password }, { abortEarly: false })
       .then(dadosValidados => {
-        login(dadosValidados.email, dadosValidados.password).then(() => {
-          setIsLoading(false);
-        });
+        login(dadosValidados.email, dadosValidados.password)
+          .then(() => {
+            setIsLoading(false);
+          })
+          .catch(error => {
+            setIsLoading(false);
+            alert(
+              "Credenciais inválidas. Por favor, verifique seu email e senha."
+            );
+          });
       })
       .catch((errors: yup.ValidationError) => {
         setIsLoading(false);

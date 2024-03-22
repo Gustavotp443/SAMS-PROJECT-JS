@@ -5,5 +5,7 @@ export enum ETableNames {
   address = "address",
   clients = "clients",
   vehicles = "vehicles",
-  employees = "employees"
+  employees = "employees",
+  serviceOrders = "service_orders",
+  productItens = "product_itens"
 }

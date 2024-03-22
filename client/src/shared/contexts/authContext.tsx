@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const handleLogin = useCallback(async (email: string, password: string) => {
     const result = await AuthService.auth(email, password);
     if (result instanceof Error) {
-      return result.message;
+      throw new Error(result.message);
     } else {
       localStorage.setItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN, result.accessToken);
       const decodedToken = jwtDecode<TokenPayload>(result.accessToken);

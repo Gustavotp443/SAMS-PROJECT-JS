@@ -70,6 +70,8 @@ CREATE TABLE service_order (
     id INT AUTO_INCREMENT PRIMARY KEY,
 	vehicle_id INT,
 	employee_id INT,
+    user_id INT,
+    description TEXT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 #PRODUCT_ITEM TABLE

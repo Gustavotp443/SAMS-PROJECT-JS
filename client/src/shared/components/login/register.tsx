@@ -13,9 +13,9 @@ import * as yup from "yup";
 import { userService } from "../../services/api/users/userService";
 
 const registerSchema = yup.object().shape({
-  name: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  password: yup.string().required().min(6)
+  name: yup.string().required().min(3).max(100),
+  email: yup.string().required().email().max(100),
+  password: yup.string().required().min(6).max(100)
 });
 
 interface IRegisterProps {
