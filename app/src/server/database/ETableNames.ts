@@ -4,5 +4,6 @@ export enum ETableNames {
   stock = "stock",
   address = "address",
   clients = "clients",
-  vehicles = "vehicles"
+  vehicles = "vehicles",
+  employees = "employees"
 }

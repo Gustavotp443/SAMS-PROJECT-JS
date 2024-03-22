@@ -97,7 +97,6 @@ export const VehiclesDetail: React.FC = () => {
 
     dados.make = selectedMake;
 
-    console.log(dados);
     formValidationSchema
       .validate(dados, { abortEarly: false })
       .then(dadosValidados => {

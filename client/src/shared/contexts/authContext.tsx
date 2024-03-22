@@ -66,7 +66,6 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
     try {
       const userId = getUsertId();
       const data = await userService.getById(userId);
-      console.log(data);
       if (data instanceof Error) {
         console.error("Falha ao buscar dados de usuário", data.message);
         return null;
