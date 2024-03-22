@@ -17,19 +17,15 @@ export const getAll = async (
 ): Promise<IClient[] | Error> => {
   try {
     const userId = getUserId(token);
-
-    if (isNaN(userId) || isNaN(page) || isNaN(limit) || userId <= 0 || page <= 0 || limit <= 0) {
-      throw new Error("Invalid parameters");
-    }
-
+    
     const result = await Knex(ETableNames.clients)
       .transacting(trx)
       .select("*")
       .where("id", Number(id))
       .orWhere("name", "like", `%${filter}%`)
-      .andWhere("user_id", userId)
-      .offset((page - 1) * limit)
-      .limit(limit);
+      .andWhere("user_id", userId);
+    //   .offset((page - 1) * limit)
+    //   .limit(limit);
 
     const resultsWithAddress = await Promise.all(result.map(async (client) => {
       const resultAddress = await AddressProvider.getById(client.address_id, trx);
