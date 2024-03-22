@@ -40,7 +40,13 @@ export const getAll = async (
     token
   );
 
+  console.log("CONTROLLER GETALL");
+  console.log(result);
+
   const count = await ClientProvider.count(req.query.filter, trx, token);
+
+  console.log("CONTROLLER COUNT");
+  console.log(count);
 
   if (result instanceof Error) {
     await trx.rollback();

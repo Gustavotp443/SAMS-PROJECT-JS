@@ -26,6 +26,10 @@ export const getAll = async (
       .offset((page - 1) * limit)
       .limit(limit);
 
+    console.log("AQUI");
+    console.log(page);
+    console.log(limit);
+    console.log(filter);
 
     const resultsWithAddress = await Promise.all(result.map(async (client) => {
       const resultAddress = await AddressProvider.getById(client.address_id, trx);
@@ -53,6 +57,7 @@ export const getAll = async (
 
       if (resultById) return [...resultsWithAddress, resultById];
     }
+
 
     return resultsWithAddress;
   } catch (e) {
