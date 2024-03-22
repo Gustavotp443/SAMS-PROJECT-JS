@@ -30,7 +30,7 @@ export const getAll = async (
   const token = (req.headers.authorization ?? "").split(" ")[1];
 
   const result = await VehiclesProvider.getAll(
-    req.query.page || 1,
+    Number(req.query.page) || 1,
     Number(req.query.limit) || 20,
     req.query.filter || "",
     Number(req.query.id),
