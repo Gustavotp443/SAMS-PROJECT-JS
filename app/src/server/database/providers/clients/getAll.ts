@@ -21,11 +21,11 @@ export const getAll = async (
     const result = await Knex(ETableNames.clients)
       .transacting(trx)
       .select("*")
-      .where("id", Number(id))
+      .where("id", id)
       .orWhere("name", "like", `%${filter}%`)
-      .andWhere("user_id", userId);
-    //   .offset((page - 1) * limit)
-    //   .limit(limit);
+      .andWhere("user_id", userId)
+      .offset((page - 1) * limit)
+      .limit(limit);
 
     const resultsWithAddress = await Promise.all(result.map(async (client) => {
       const resultAddress = await AddressProvider.getById(client.address_id, trx);

@@ -35,7 +35,7 @@ export const getAll = async (
     Number(req.query.page) || 1,
     Number(req.query.limit) || 20,
     req.query.filter || "",
-    Number(req.query.id),
+    Number(req.query.id) || 0,
     trx,
     token
   );

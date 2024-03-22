@@ -18,4 +18,5 @@ export const enviromnent = {
    * Define a URL BASE do projeto
    */
   URL_BASE: "https://sams-project-server.vercel.app" //prod
+  //URL_BASE: "http://localhost:3333" //dev
 };
