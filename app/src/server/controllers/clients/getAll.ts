@@ -33,20 +33,14 @@ export const getAll = async (
 
   const result = await ClientProvider.getAll(
     req.query.page || 1,
-    req.query.limit || 20,
+    Number(req.query.limit) || 20,
     req.query.filter || "",
     Number(req.query.id),
     trx,
     token
   );
 
-  console.log("CONTROLLER GETALL");
-  console.log(result);
-
   const count = await ClientProvider.count(req.query.filter, trx, token);
-
-  console.log("CONTROLLER COUNT");
-  console.log(count);
 
   if (result instanceof Error) {
     await trx.rollback();

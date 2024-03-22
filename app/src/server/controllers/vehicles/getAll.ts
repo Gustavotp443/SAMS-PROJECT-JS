@@ -31,7 +31,7 @@ export const getAll = async (
 
   const result = await VehiclesProvider.getAll(
     req.query.page || 1,
-    req.query.limit || 20,
+    Number(req.query.limit) || 20,
     req.query.filter || "",
     Number(req.query.id),
     token
