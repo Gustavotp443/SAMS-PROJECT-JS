@@ -6,6 +6,8 @@ const api = axios.create({
   baseURL: enviromnent.URL_BASE
 });
 
+console.log(enviromnent.URL_BASE);
+
 api.interceptors.request.use(config => {
   const token = localStorage.getItem("ACCESS_TOKEN");
   if (token) {
