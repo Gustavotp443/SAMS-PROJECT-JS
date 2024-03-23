@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import * as yup from "yup";
 import { validation } from "../../shared/middlewares";
 import { StatusCodes } from "http-status-codes";
-import { ProductProvider } from "../../database/providers/products";
 import { Knex } from "../../database/knex";
+import { ServiceOrdersProvider } from "../../database/providers/serviceOrders";
 
 interface IQueryProps {
   id?: number;
@@ -31,7 +31,7 @@ export const getAll = async (
   const trx = await Knex.transaction();
   const token = (req.headers.authorization ?? "").split(" ")[1];
 
-  const result = await ProductProvider.getAll(
+  const result = await ServiceOrdersProvider.getAll(
     Number(req.query.page) || 1,
     Number(req.query.limit) || 20,
     req.query.filter || "",
@@ -40,7 +40,7 @@ export const getAll = async (
     token
   );
 
-  const count = await ProductProvider.count(req.query.filter, trx, token);
+  const count = await ServiceOrdersProvider.count(req.query.filter, trx, token);
 
   if (result instanceof Error) {
     await trx.rollback();

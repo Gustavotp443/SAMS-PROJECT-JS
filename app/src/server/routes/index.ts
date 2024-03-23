@@ -5,6 +5,7 @@ import { ensureAuthenticated } from "../shared/middlewares";
 import { ClientController } from "../controllers/clients";
 import { VehiclesController } from "../controllers/vehicles";
 import { EmployeesController } from "../controllers/employees";
+import { ServiceOrdersController } from "../controllers/serviceOrders";
 
 const router = Router();
 
@@ -166,6 +167,41 @@ router.delete(
   EmployeesController.deleteById
 );
 
+//services order
+router.get(
+  "/serviceorder",
+  ensureAuthenticated,
+  ServiceOrdersController.getAllValidation,
+  ServiceOrdersController.getAll
+);
+
+router.get(
+  "/serviceorder/:id",
+  ensureAuthenticated,
+  ServiceOrdersController.getByIdValidation,
+  ServiceOrdersController.getById
+);
+
+router.post(
+  "/serviceorder",
+  ensureAuthenticated,
+  ServiceOrdersController.createValidation,
+  ServiceOrdersController.create
+);
+
+router.put(
+  "/serviceorder/:id",
+  ensureAuthenticated,
+  ServiceOrdersController.updateByIdValidation,
+  ServiceOrdersController.updateById
+);
+
+router.delete(
+  "/serviceorder/:id",
+  ensureAuthenticated,
+  ServiceOrdersController.deleteByIdValidation,
+  ServiceOrdersController.deleteById
+);
 router; //LOGIN && REGISTER
 router.post(
   "/register",

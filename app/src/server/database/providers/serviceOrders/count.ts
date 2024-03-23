@@ -10,9 +10,9 @@ export const count = async (
 ): Promise<number | Error> => {
   try {
     const uid = getUserId(token);
-    const [{ count }] = await Knex(ETableNames.products)
+    const [{ count }] = await Knex(ETableNames.serviceOrders)
       .transacting(trx)
-      .where("name", "like", `%${filter}%`)
+      .where("description", "like", `%${filter}%`)
       .andWhere("user_id", uid)
       .count<[{ count: number }]>("* as count");
     if (Number.isInteger(Number(count))) return Number(count);

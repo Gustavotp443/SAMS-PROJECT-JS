@@ -15,7 +15,6 @@ const productItensBase = [
   {
     id: 1,
     service_order_id: 1,
-    employee_id: 1,
     product_id: 1,
     quantity: 1
   }

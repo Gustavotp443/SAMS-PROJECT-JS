@@ -3,8 +3,9 @@ import { ETableNames } from "../../ETableNames";
 import { Knex } from "../../knex";
 import { IProduct } from "../../models";
 import * as kn from "knex";
-import { StockProvider } from "../stock";
 import { getUserId } from "../../../utils";
+import { ProductItensProvider } from "../productItens";
+import { ProductProvider } from "../products";
 
 export const getAll = async (
   page: number,
@@ -16,29 +17,43 @@ export const getAll = async (
 ): Promise<IProduct[] | Error> => {
   try {
     const userId = getUserId(token);
-    const result = await Knex(ETableNames.products)
+    const result = await Knex(ETableNames.serviceOrders)
       .transacting(trx)
       .select("*")
       .where("id", Number(id))
-      .orWhere("name", "like", `%${filter}%`)
+      .orWhere("description", "like", `%${filter}%`)
       .andWhere("user_id", userId)
       .offset((page - 1) * limit)
       .limit(limit);
 
-    const resultsWithStock = await Promise.all(result.map(async (product) => {
-      const resultStock = await StockProvider.getByProductId(product.id, trx);
-      if (!(resultStock instanceof Error)) {
+    const resultsWithProductItem = await Promise.all(result.map(async (order) => {
+      const resultsProductItens = await ProductItensProvider.getAll(0, trx,order.id);
+      if (!(resultsProductItens instanceof Error)) {
+
+        const resultProductWithProductDetail = await Promise.all(resultsProductItens.map(async (item)=>{
+          const resultProduct = await ProductProvider.getById(item.product_id, trx, token);
+
+          if (!(resultProduct instanceof Error)) {
+            return {
+              ...item,
+              product: resultProduct
+            };
+          }else {
+            return new Error("Error when getting data!");
+          }
+        }));
+
         return {
-          ...product,
-          quantity: resultStock instanceof Error ? 0 : resultStock.quantity
+          ...order,
+          productItens: resultProductWithProductDetail
         };
       } else {
         return new Error("Error when getting data!");
       }
     }));
 
-    if (id > 0 && resultsWithStock.every((item) => item.id !== id)) {
-      const resultById = await Knex(ETableNames.products)
+    if (id > 0 && resultsWithProductItem.every((item) => item.id !== id)) {
+      const resultById = await Knex(ETableNames.serviceOrders)
         .transacting(trx)
         .select("*")
         .where("id", "=", id)
@@ -46,10 +61,10 @@ export const getAll = async (
         .first();
 
 
-      if (resultById) return [...resultsWithStock, resultById];
+      if (resultById) return [...resultsWithProductItem, resultById];
     }
 
-    return resultsWithStock;
+    return resultsWithProductItem;
   } catch (e) {
     console.error(e);
     return new Error("Error when getting data!");

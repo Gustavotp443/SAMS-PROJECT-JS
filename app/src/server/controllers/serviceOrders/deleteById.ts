@@ -2,15 +2,14 @@ import { Request, Response } from "express";
 import * as yup from "yup";
 import { validation } from "../../shared/middlewares";
 import { StatusCodes } from "http-status-codes";
-import { ProductProvider } from "../../database/providers/products";
-import { Knex } from "../../database/knex";
+import { ServiceOrdersProvider } from "../../database/providers/serviceOrders";
 
 interface IParamProps {
   id?: number;
 }
 
 //Middleware de validação
-export const getByIdValidation = validation((getSchema) => ({
+export const deleteByIdValidation = validation((getSchema) => ({
   params: getSchema<IParamProps>(
     yup.object().shape({
       id: yup.number().integer().required().moreThan(0)
@@ -18,7 +17,7 @@ export const getByIdValidation = validation((getSchema) => ({
   )
 }));
 
-export const getById = async (req: Request<IParamProps>, res: Response) => {
+export const deleteById = async (req: Request<IParamProps>, res: Response) => {
   if (!req.params.id) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       errors: {
@@ -27,13 +26,8 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
     });
   }
 
-  const trx = await Knex.transaction();
-  const token = (req.headers.authorization ?? "").split(" ")[1];
-
-  const result = await ProductProvider.getById(req.params.id, trx, token);
-
+  const result = await ServiceOrdersProvider.deleteById(req.params.id);
   if (result instanceof Error) {
-    await trx.rollback();
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       errors: {
         default: result.message
@@ -41,7 +35,5 @@ export const getById = async (req: Request<IParamProps>, res: Response) => {
     });
   }
 
-  await trx.commit();
-
-  return res.status(StatusCodes.OK).json(result);
+  return res.status(StatusCodes.NO_CONTENT).send();
 };
