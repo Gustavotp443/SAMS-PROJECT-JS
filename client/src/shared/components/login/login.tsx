@@ -86,7 +86,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
         <CardContent>
           <Box display="flex" flexDirection="column" gap={2} width={250}>
             <Typography variant="h6" align="center">
-              Indentifique-se
+              Identifique-se
             </Typography>
             <TextField
               fullWidth

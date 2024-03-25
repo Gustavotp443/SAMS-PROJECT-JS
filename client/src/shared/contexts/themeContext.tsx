@@ -2,6 +2,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState
 } from "react";
@@ -27,7 +28,13 @@ export const useAppThemeContext = () => {
 export const AppThemeProvider: React.FC<IAppThemeProviderProps> = ({
   children
 }) => {
-  const [themeName, setThemeName] = useState<"light" | "dark">("light");
+  const [themeName, setThemeName] = useState<"light" | "dark">(
+    () => (localStorage.getItem("themeName") as "light" | "dark") || "light"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("themeName", themeName);
+  }, [themeName]);
 
   const toggleTheme = useCallback(() => {
     setThemeName(oldThemeName => (oldThemeName === "light" ? "dark" : "light"));

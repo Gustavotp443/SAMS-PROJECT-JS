@@ -85,7 +85,7 @@ export const VehiclesList: React.FC = () => {
   };
   return (
     <LayoutBasePage
-      titulo="Listagem de veiculos"
+      titulo="Listagem de veículos"
       barraDeFerramentas={
         <ListTolls
           showSearchInput

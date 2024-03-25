@@ -69,7 +69,7 @@ export const EmployeeList: React.FC = () => {
   };
   return (
     <LayoutBasePage
-      titulo="Listagem de funcionarios"
+      titulo="Listagem de funcionários"
       barraDeFerramentas={
         <ListTolls
           showSearchInput

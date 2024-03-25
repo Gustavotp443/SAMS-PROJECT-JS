@@ -32,12 +32,12 @@ export const AppRoutes = () => {
         path: "/clientes"
       },
       {
-        label: "Veiculos",
+        label: "Veículos",
         icon: "garage",
         path: "/veiculos"
       },
       {
-        label: "Funcionarios",
+        label: "Funcionários",
         icon: "badge",
         path: "/funcionarios"
       },

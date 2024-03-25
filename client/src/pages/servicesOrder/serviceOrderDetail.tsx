@@ -491,7 +491,7 @@ export const ServiceOrderDetail: React.FC = () => {
                   >
                     {products.map(product => (
                       <MenuItem key={product.id} value={product.id}>
-                        {product.name}
+                        {`${product.name} - ${product.quantity}`}
                       </MenuItem>
                     ))}
                   </Select>
@@ -507,9 +507,26 @@ export const ServiceOrderDetail: React.FC = () => {
                   <TextField
                     fullWidth
                     value={quantity}
-                    label="Quantidade"
-                    disabled={isLoading}
-                    onChange={e => setQuantity(e.target.value)}
+                    label={
+                      selectedProduct ? "Quantitade" : "Selecione um produto"
+                    }
+                    disabled={isLoading || !selectedProduct}
+                    onChange={e => {
+                      let newQuantity = Number(e.target.value);
+                      if (isNaN(newQuantity) || newQuantity < 0) {
+                        newQuantity = 0;
+                      }
+                      const selectedProductData = products.find(
+                        product => product.id === Number(selectedProduct)
+                      );
+                      if (selectedProductData) {
+                        if (newQuantity > selectedProductData.quantity) {
+                          setQuantity(selectedProductData.quantity.toString());
+                        } else {
+                          setQuantity(newQuantity.toString());
+                        }
+                      }
+                    }}
                   />
                 </Grid>
               </Grid>
