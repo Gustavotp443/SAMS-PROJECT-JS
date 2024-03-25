@@ -8,6 +8,8 @@ import { VehiclesList } from "../pages/vehicles/vehiclesList";
 import { VehiclesDetail } from "../pages/vehicles/vehiclesDetail";
 import { EmployeeList } from "../pages/employees/employeesList";
 import { EmployeeDetail } from "../pages/employees/employeesDetail";
+import { ServiceOrderList } from "../pages/servicesOrder/serviceOrderList";
+import { ServiceOrderDetail } from "../pages/servicesOrder/serviceOrderDetail";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -38,6 +40,11 @@ export const AppRoutes = () => {
         label: "Funcionarios",
         icon: "badge",
         path: "/funcionarios"
+      },
+      {
+        label: "Serviços",
+        icon: "work",
+        path: "/ordemservico"
       }
     ]);
   }, []);
@@ -57,6 +64,12 @@ export const AppRoutes = () => {
 
       <Route path="/funcionarios" element={<EmployeeList />} />
       <Route path="/funcionarios/detalhe/:id" element={<EmployeeDetail />} />
+
+      <Route path="/ordemservico" element={<ServiceOrderList />} />
+      <Route
+        path="/ordemservico/detalhe/:id"
+        element={<ServiceOrderDetail />}
+      />
 
       <Route path="*" element={<Navigate to="/inicio" />} />
     </Routes>

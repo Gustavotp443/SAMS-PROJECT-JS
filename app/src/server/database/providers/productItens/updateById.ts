@@ -13,15 +13,31 @@ export const updateById = async (
   try {
     await Promise.all(
       productQuantity.map(async (productForm) => {
-        const { quantity } = productForm;
+        const { product_id, quantity } = productForm;
 
-        const result = await Knex(ETableNames.productItens)
+        const existingRecord = await Knex(ETableNames.productItens)
           .transacting(trx)
-          .update({ quantity })
-          .where("service_order_id", "=", serviceOrderId);
+          .where({
+            product_id,
+            service_order_id: serviceOrderId
+          })
+          .first();
 
-        if (result > 0) return;
-        return new Error("Error when updating data!");
+        if (existingRecord) {
+          await Knex(ETableNames.productItens)
+            .transacting(trx)
+            .update({ quantity })
+            .where({
+              product_id,
+              service_order_id: serviceOrderId
+            });
+        } else {
+          await Knex(ETableNames.productItens).transacting(trx).insert({
+            product_id,
+            service_order_id: serviceOrderId,
+            quantity
+          });
+        }
       })
     );
 

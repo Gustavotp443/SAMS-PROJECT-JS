@@ -22,11 +22,11 @@ export const createValidation = validation((getSchema) => ({
       vehicle_id: yup.number(),
       employee_id: yup.number(),
       user_id: yup.number().required(),
-      description: yup.string(),
+      description: yup.string().required(),
       products: yup.array().of(
         yup.object().shape({
           product_id: yup.number().required(),
-          quantity: yup.number().required()
+          quantity: yup.number().required().min(0)
         })
       )
     })

@@ -72,6 +72,7 @@ export const updateById = async (
         }
       });
     }
+    console.log(req.params.id, products);
 
     const productItens = await ProductItensProvider.updateById(
       req.params.id,

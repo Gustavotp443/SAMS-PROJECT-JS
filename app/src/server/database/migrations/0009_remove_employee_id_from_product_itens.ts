@@ -16,7 +16,7 @@ export async function up(knex: Knex) {
 export async function down(knex: Knex) {
   return knex.schema
     .table(ETableNames.productItens, (table) => {
-      table.bigInteger("employee_id").unsigned().notNullable();
+      table.bigInteger("employee_id").unsigned().nullable();
 
       table
         .foreign("employee_id")

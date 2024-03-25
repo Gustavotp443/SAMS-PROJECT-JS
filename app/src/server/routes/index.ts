@@ -6,6 +6,7 @@ import { ClientController } from "../controllers/clients";
 import { VehiclesController } from "../controllers/vehicles";
 import { EmployeesController } from "../controllers/employees";
 import { ServiceOrdersController } from "../controllers/serviceOrders";
+import { ProductItemController } from "../controllers/productItens";
 
 const router = Router();
 
@@ -202,6 +203,15 @@ router.delete(
   ServiceOrdersController.deleteByIdValidation,
   ServiceOrdersController.deleteById
 );
+
+//PRODUCT ITENS
+router.delete(
+  "/productitem",
+  ensureAuthenticated,
+  ProductItemController.deleteByProductIdValidation,
+  ProductItemController.deleteByProductId
+);
+
 router; //LOGIN && REGISTER
 router.post(
   "/register",

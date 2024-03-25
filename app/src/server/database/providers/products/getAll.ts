@@ -21,12 +21,9 @@ export const getAll = async (
       .select(
         `${ETableNames.products}.*`,
         Knex.raw(
-          `(${ETableNames.stock}.quantity - COALESCE(SUM(${ETableNames.productItens}.quantity), 0)) as quantity`
+          `(SELECT quantity FROM ${ETableNames.stock} WHERE ${ETableNames.stock}.product_id = ${ETableNames.products}.id) - COALESCE(SUM(CASE WHEN ${ETableNames.productItens}.product_id IS NOT NULL THEN ${ETableNames.productItens}.quantity ELSE 0 END), 0) as quantity`
         )
       )
-      .leftJoin(ETableNames.stock, function() {
-        this.on(`${ETableNames.products}.id`, "=", `${ETableNames.stock}.product_id`);
-      })
       .leftJoin(ETableNames.productItens, function() {
         this.on(`${ETableNames.products}.id`, "=", `${ETableNames.productItens}.product_id`);
       })
