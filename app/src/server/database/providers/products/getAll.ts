@@ -19,21 +19,30 @@ export const getAll = async (
     const result = await Knex(ETableNames.products)
       .transacting(trx)
       .select(
-        `${ETableNames.products}.*`,
+        `${ETableNames.products}.id`,
+        `${ETableNames.products}.user_id`,
+        `${ETableNames.products}.name`,
+        `${ETableNames.products}.price`,
         Knex.raw(
-          `(SELECT quantity FROM ${ETableNames.stock} WHERE ${ETableNames.stock}.product_id = ${ETableNames.products}.id) - COALESCE(SUM(CASE WHEN ${ETableNames.productItens}.product_id IS NOT NULL THEN ${ETableNames.productItens}.quantity ELSE 0 END), 0) as quantity`
+          `(${ETableNames.stock}.quantity - COALESCE(SUM(CASE WHEN ${ETableNames.productItens}.product_id IS NOT NULL THEN ${ETableNames.productItens}.quantity ELSE 0 END), 0)) as quantity`
         )
       )
-      .leftJoin(ETableNames.productItens, function() {
-        this.on(`${ETableNames.products}.id`, "=", `${ETableNames.productItens}.product_id`);
+      .leftJoin(ETableNames.stock, `${ETableNames.products}.id`, "=", `${ETableNames.stock}.product_id`)
+      .leftJoin(ETableNames.productItens, `${ETableNames.products}.id`, "=", `${ETableNames.productItens}.product_id`)
+      .where(function() {
+        this.where(`${ETableNames.products}.id`, Number(id))
+          .orWhere(`${ETableNames.products}.name`, "like", `%${filter}%`);
       })
-      .where(`${ETableNames.products}.id`, Number(id))
-      .orWhere(`${ETableNames.products}.name`, "like", `%${filter}%`)
       .andWhere(`${ETableNames.products}.user_id`, userId)
-      .groupBy(`${ETableNames.products}.id`)
+      .groupBy(
+        `${ETableNames.products}.id`,
+        `${ETableNames.products}.user_id`,
+        `${ETableNames.products}.name`,
+        `${ETableNames.products}.price`,
+        `${ETableNames.stock}.quantity`
+      )
       .offset((page - 1) * limit)
       .limit(limit);
-
 
     if (id > 0 && result.every((item) => item.id !== id)) {
       const resultById = await Knex(ETableNames.products)
@@ -42,7 +51,6 @@ export const getAll = async (
         .where("id", "=", id)
         .andWhere("user_id", userId)
         .first();
-
 
       if (resultById) return [...result, resultById];
     }
