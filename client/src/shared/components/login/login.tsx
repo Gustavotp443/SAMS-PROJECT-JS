@@ -37,7 +37,8 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-
+    setPasswordError("");
+    setEmailError("");
     loginSchema
       .validate({ email, password }, { abortEarly: false })
       .then(dadosValidados => {
@@ -47,9 +48,12 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
           })
           .catch(error => {
             setIsLoading(false);
-            alert(
-              "Credenciais inválidas. Por favor, verifique seu email e senha."
-            );
+            const errorResponse = JSON.parse(error.message);
+            if (errorResponse.errors.password) {
+              setPasswordError(errorResponse.errors.password);
+            } else if (errorResponse.errors.email) {
+              setEmailError(errorResponse.errors.email);
+            }
           });
       })
       .catch((errors: yup.ValidationError) => {

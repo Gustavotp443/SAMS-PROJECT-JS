@@ -30,7 +30,7 @@ export const signin = async (
   if (user instanceof Error) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: {
-        default: "Email or password not valid"
+        email: "O email fornecido não está registrado em nossa plataforma"
       }
     });
   }
@@ -42,7 +42,8 @@ export const signin = async (
   if (!passwordMatch) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       errors: {
-        default: "Email ou senha são inválidos"
+        password:
+          "A senha fornecida está incorreta. Por favor, verifique e tente novamente."
       }
     });
   } else {
@@ -54,7 +55,6 @@ export const signin = async (
         }
       });
     }
-
     return res.status(StatusCodes.OK).json({ accessToken });
   }
 

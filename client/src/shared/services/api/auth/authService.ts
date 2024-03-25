@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { api } from "../axios-config";
 
 interface IAuth {
@@ -17,6 +18,15 @@ const auth = async (
 
     return new Error("Erro no login.");
   } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.response && error.response.data) {
+        if (typeof error.response.data === "string") {
+          return new Error(error.response.data);
+        } else {
+          return new Error(JSON.stringify(error.response.data));
+        }
+      }
+    }
     console.error(error);
     return new Error(
       (error as { message: string }).message || "Erro no login."
@@ -26,4 +36,9 @@ const auth = async (
 
 export const AuthService = {
   auth
+};
+
+// Função auxiliar para verificar se é um erro do Axios
+const isAxiosError = (error: any): error is AxiosError => {
+  return error.isAxiosError;
 };
