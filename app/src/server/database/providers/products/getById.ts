@@ -38,6 +38,13 @@ export const getById = async (
       })
       .where(`${ETableNames.products}.id`, "=", id)
       .andWhere(`${ETableNames.products}.user_id`, uid)
+      .groupBy(
+        `${ETableNames.products}.id`,
+        `${ETableNames.products}.user_id`,
+        `${ETableNames.products}.name`,
+        `${ETableNames.products}.price`,
+        `${ETableNames.stock}.quantity`
+      )
       .first();
     if (result) return result;
 
