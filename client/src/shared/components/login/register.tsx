@@ -5,12 +5,15 @@ import {
   CardActions,
   CardContent,
   CircularProgress,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography
 } from "@mui/material";
 import { useState } from "react";
 import * as yup from "yup";
 import { userService } from "../../services/api/users/userService";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const registerSchema = yup.object().shape({
   name: yup.string().required().min(3).max(100),
@@ -32,6 +35,8 @@ export const Register: React.FC<IRegisterProps> = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -99,13 +104,25 @@ export const Register: React.FC<IRegisterProps> = ({
             />
             <TextField
               fullWidth
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Senha"
               value={password}
               disabled={isLoading}
               error={!!passwordError}
               helperText={passwordError}
               onChange={e => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
               onKeyDown={() => setPasswordError("")}
             />
           </Box>

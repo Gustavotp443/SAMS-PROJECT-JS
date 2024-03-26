@@ -5,6 +5,8 @@ import {
   CardActions,
   CardContent,
   CircularProgress,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography
 } from "@mui/material";
@@ -12,6 +14,7 @@ import { useAuthContext } from "../../contexts";
 import { useState } from "react";
 import * as yup from "yup";
 import { Register } from "./register";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface ILoginProps {
   children: React.ReactNode;
@@ -29,6 +32,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
   const [register, setRegister] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -105,13 +109,25 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
             />
             <TextField
               fullWidth
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Senha"
               value={password}
               disabled={isLoading}
               error={!!passwordError}
               helperText={passwordError}
               onChange={e => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
               onKeyDown={() => setPasswordError("")}
             />
           </Box>
