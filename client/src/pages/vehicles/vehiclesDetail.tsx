@@ -153,7 +153,7 @@ export const VehiclesDetail: React.FC = () => {
 
   return (
     <LayoutBasePage
-      titulo={id === "novo" ? "Novo veiculo" : name}
+      titulo={id === "novo" ? "Novo veículo" : name}
       barraDeFerramentas={
         <DetailTolls
           textNewButton="Novo"
@@ -171,7 +171,7 @@ export const VehiclesDetail: React.FC = () => {
       <VForm
         ref={formRef}
         onSubmit={handleSave}
-        placeholder={"formulário de veiculos"}
+        placeholder={"formulário de veículos"}
       >
         <Box
           margin={1}

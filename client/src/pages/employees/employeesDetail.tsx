@@ -118,7 +118,7 @@ export const EmployeeDetail: React.FC = () => {
 
   return (
     <LayoutBasePage
-      titulo={id === "novo" ? "Novo funcionario" : name}
+      titulo={id === "novo" ? "Novo funcionário" : name}
       barraDeFerramentas={
         <DetailTolls
           textNewButton="Novo"
@@ -136,7 +136,7 @@ export const EmployeeDetail: React.FC = () => {
       <VForm
         ref={formRef}
         onSubmit={handleSave}
-        placeholder={"formulário de funcionarios"}
+        placeholder={"formulário de funcionários"}
       >
         <Box
           margin={1}
