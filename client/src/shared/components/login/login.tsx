@@ -126,7 +126,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
             textShadow: "1px 1px 0px #fff",
             textAlign: "center",
             color: "#cd9a02",
-            top: "20%"
+            top: "16%"
           }}
         >
           <Typography variant="h4">Olá! Você está no SAMS</Typography>
