@@ -94,6 +94,7 @@ export const Register: React.FC<IRegisterProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
+      sx={{ position: "relative" }}
     >
       {/* Fundo mais profundo */}
       <BackgroundBox image={bgImg2} zIndex={1} />
@@ -104,13 +105,14 @@ export const Register: React.FC<IRegisterProps> = ({
         <Box
           sx={{
             position: "absolute",
+            top: "10%",
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 1000,
             textShadow: "1px 1px 0px #fff",
             textAlign: "center",
             color: "#cd9a02",
-            top: "20%"
+            width: "100%"
           }}
         >
           <Typography variant="h4">Olá! Você está no SAMS</Typography>
@@ -118,8 +120,9 @@ export const Register: React.FC<IRegisterProps> = ({
         <Card
           sx={{
             zIndex: 999,
-            boxShadow: "6px 6px 4px rgba(255, 193, 7, 1)", // Sombra amarela
-            position: "relative"
+            boxShadow: "6px 6px 4px rgba(255, 193, 7, 1)",
+            position: "relative",
+            width: 300
           }}
         >
           <CardContent>

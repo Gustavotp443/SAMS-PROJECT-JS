@@ -110,7 +110,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      sx={{ position: "relative" }} // Adicionando 'relative' para controle de posicionamento dos elementos internos
+      sx={{ position: "relative" }}
     >
       <BackgroundBox image={bgImg2} zIndex={1} />
       <BackgroundBox image={bgImg1} zIndex={2} />
@@ -118,14 +118,14 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
       <Box
         sx={{
           position: "absolute",
-          top: "10%", // Ajuste para garantir que o título fique afastado do topo
+          top: "10%",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 1000,
           textShadow: "1px 1px 0px #fff",
           textAlign: "center",
           color: "#cd9a02",
-          width: "100%" // Garantir que o Box ocupe toda a largura
+          width: "100%"
         }}
       >
         <Typography variant="h4">Olá! Você está no SAMS</Typography>
@@ -134,7 +134,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
       <Card
         sx={{
           zIndex: 999,
-          boxShadow: "6px 6px 4px rgba(255, 193, 7, 1)", // Sombra amarela
+          boxShadow: "6px 6px 4px rgba(255, 193, 7, 1)",
           position: "relative",
           width: 300 // Tamanho fixo para evitar que o card se distorça em telas menores
         }}
