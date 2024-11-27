@@ -1,6 +1,11 @@
 # SAMS PROJECT
 
-Descrição breve do projeto.
+Sistema desenvolvido como Trabalho de Conclusão de Curso (TCC) na graduação pela FATEC SBC. Trata-se de um gerenciador ainda em desenvolvimento para oficinas mecânicas.
+Composto por interface do cliente, servidor e banco de dados em nuvem. 
+Construído com TypeScript, Node.js, Knex, Express, React, Material.UI e PostgreSQL, o sistema adota uma arquitetura escalável e modular,
+seguindo princípios de código limpo. 
+A estrutura do backend utiliza uma abordagem baseada em Repositories, Controllers e Database, semelhante ao padrão MVC, garantindo organização e manutenibilidade.
+As funcionalidades incluem autenticação segura, integração via API REST e gerenciamento eficiente de dados, proporcionando uma solução robusta e eficiente para o setor automotivo.
 
 ## Tecnologias Utilizadas
 
